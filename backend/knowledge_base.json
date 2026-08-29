@@ -1,0 +1,114 @@
+{
+  "hotel_info": {
+    "name": "The Grand Heritage Boutique Hotel",
+    "rooms_count": 40,
+    "address": "42 Heritage Boulevard, Civil Lines, Jaipur / City Centre",
+    "phone": "+91 141 289 9000",
+    "whatsapp": "+91 98290 12345",
+    "email": "concierge@grandheritagehotel.com",
+    "check_in_time": "14:00 (2:00 PM)",
+    "check_out_time": "11:00 (11:00 AM)",
+    "early_check_in_policy": "Subject to room availability upon arrival. Guaranteed early check-in before 9:00 AM incurs a 50% half-day charge.",
+    "late_check_out_policy": "Complimentary up to 12:30 PM upon request. Late check-out until 6:00 PM charged at 50% room rate."
+  },
+  "wifi": {
+    "network_name": "Heritage_Guest_5G",
+    "password": "WelcomeHeritage2026",
+    "speed": "300 Mbps High-Speed Fiber",
+    "support": "Dial 0 from room phone or text concierge"
+  },
+  "dining": {
+    "breakfast": {
+      "venue": "The Heritage Bistro & Courtyard (1st Floor)",
+      "timings": "7:30 AM to 10:30 AM daily",
+      "style": "Lavish Multi-cuisine Buffet & Live Egg / Dosa / Pancake Station",
+      "cost": "Complimentary for Direct Bookings / ₹650 + taxes per guest for room-only rate"
+    },
+    "all_day_dining": {
+      "venue": "The Royal Spice Lounge",
+      "timings": "12:00 PM to 11:00 PM",
+      "cuisines": "Authentic North Indian, Rajasthani Delicacies, Pan-Asian & Continental"
+    },
+    "room_service": {
+      "timings": "24 hours, 7 days a week",
+      "ordering": "Dial 9 on room intercom or message your WhatsApp Concierge",
+      "popular_items": ["Heritage Club Sandwich (₹420)", "Butter Chicken with Garlic Naan (₹550)", "Paneer Tikka Lababdar (₹480)", "Truffle Penne Pasta (₹520)", "Artisanal Hot Chocolate & Cookies (₹280)"]
+    }
+  },
+  "amenities": {
+    "swimming_pool": {
+      "location": "Rooftop 4th Floor",
+      "timings": "6:00 AM to 9:00 PM",
+      "details": "Temperature-controlled infinity pool with panoramic skyline view and sun loungers"
+    },
+    "ayurvedic_spa": {
+      "location": "Lower Ground Garden Wing",
+      "timings": "8:00 AM to 8:30 PM",
+      "treatments": ["Abhyanga Herbal Massage (60 min - ₹2,800)", "Deep Tissue Rejuvenation (75 min - ₹3,400)", "Herbal Facial & Scalp Therapy (60 min - ₹2,500)"]
+    },
+    "fitness_centre": {
+      "location": "2nd Floor",
+      "timings": "24 Hours (Keycard access)",
+      "equipment": "Treadmills, Ellipticals, Free Weights, Rowing Machine, Yoga Mats"
+    },
+    "business_lounge": {
+      "location": "1st Floor next to Bistro",
+      "timings": "7:00 AM to 10:00 PM",
+      "facilities": "High-speed workstations, wireless printing, private 8-seater meeting room"
+    }
+  },
+  "services": {
+    "housekeeping": {
+      "daily_cleaning": "9:00 AM to 4:00 PM (or on-demand anytime)",
+      "evening_turndown": "7:00 PM to 8:30 PM with complimentary soothing herbal nightcap tea",
+      "extra_toiletries_linens": "Available 24/7 on WhatsApp request (towels, dental kit, shaving kit, extra pillows, iron & board)"
+    },
+    "laundry": {
+      "regular": "Collected before 10:00 AM, delivered same day by 7:00 PM",
+      "express": "4-hour express turnaround (+50% surcharge)",
+      "ironing": "Available within 45 minutes on request"
+    },
+    "transportation": {
+      "airport_transfer": "Sedan ₹1,800 / Luxury SUV ₹2,500 (one-way)",
+      "railway_station_pickup": "Sedan ₹800 / SUV ₹1,200",
+      "city_day_cab": "8 Hours / 80 KMs full day chauffeur driven ₹3,200"
+    },
+    "parking": "Complimentary secure valet parking for all resident guests"
+  },
+  "room_categories": [
+    {
+      "name": "Standard Heritage Room",
+      "rooms_count": 12,
+      "base_price": 3500,
+      "features": "280 sqft, Queen Bed, Rain Shower, Smart TV, Courtyard View"
+    },
+    {
+      "name": "Deluxe Garden View",
+      "rooms_count": 16,
+      "base_price": 4600,
+      "features": "360 sqft, King Bed, Private Balcony, Garden View, Bathrobe & Slippers"
+    },
+    {
+      "name": "Executive Club Room",
+      "rooms_count": 8,
+      "base_price": 6200,
+      "features": "420 sqft, King Bed, Espresso Machine, City Skyline View, Club Lounge Access"
+    },
+    {
+      "name": "Royal Heritage Suite",
+      "rooms_count": 4,
+      "base_price": 9500,
+      "features": "650 sqft, Separate Living Salon, Soaking Jacuzzi Bath, Butler Service"
+    }
+  ],
+  "local_attractions": [
+    {"name": "Historic Royal Fort & Palace", "distance": "1.8 km (10 mins drive)", "best_time": "Morning 9 AM or Sunset 5 PM"},
+    {"name": "Central Artisans & Textile Bazaar", "distance": "800m (5 mins walk)", "best_time": "Afternoon 3 PM - 8 PM"},
+    {"name": "Lakeside Promenade & Cafe Strip", "distance": "2.5 km (12 mins drive)", "best_time": "Evening 6 PM - 10 PM"}
+  ],
+  "escalation_triggers": [
+    "dirty", "disgusting", "unclean", "stain", "roach", "bug", "ac not working", "ac broken", "leaking", "leak",
+    "hot water", "no water", "noise", "loud", "unacceptable", "terrible", "worst", "manager", "emergency",
+    "food poisoning", "cold food", "refund", "cheated", "rude staff", "police", "cancel reservation"
+  ]
+}
