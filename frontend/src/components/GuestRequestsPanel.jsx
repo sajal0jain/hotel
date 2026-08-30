@@ -7,14 +7,39 @@ import {
   Send, 
   Filter, 
   Sparkles, 
-  ShieldAlert,
-  User,
-  X,
-  Smile,
-  Frown,
-  Meh
+  ShieldAlert, 
+  User, 
+  X, 
+  Smile, 
+  Frown, 
+  Meh,
+  CornerDownRight
 } from 'lucide-react';
 import { api } from '../api';
+
+/**
+ * Helper to reliably extract the original guest request text and any staff replies
+ */
+function parseRequestNotes(rawNotes) {
+  if (!rawNotes) {
+    return { 
+      originalMessage: 'Guest request received via WhatsApp.', 
+      staffReplies: [] 
+    };
+  }
+
+  // Split on staff reply delimiters e.g. [Staff replied: "..."] or [Staff response: "..."]
+  const delimiterRegex = /\n\s*\[Staff (?:replied|response):\s*"?/i;
+  const parts = rawNotes.split(delimiterRegex);
+  
+  const originalMessage = (parts[0] || '').trim();
+  const staffReplies = parts.slice(1).map(p => {
+    // strip trailing "] or ]
+    return p.replace(/"?\s*\]\s*$/, '').trim();
+  }).filter(Boolean);
+
+  return { originalMessage, staffReplies };
+}
 
 export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
   const [statusFilter, setStatusFilter] = useState('all');
@@ -46,12 +71,19 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
     setIsSending(true);
     try {
       if (activeReplyRequest.conversation_id) {
-        await api.sendStaffReply(activeReplyRequest.conversation_id, replyText);
+        await api.sendStaffReply(activeReplyRequest.conversation_id, replyText.trim());
       }
+
+      // Preserve original message and append new staff reply cleanly
+      const { originalMessage, staffReplies } = parseRequestNotes(activeReplyRequest.notes);
+      const updatedReplies = [...staffReplies, replyText.trim()];
+      const updatedNotes = `${originalMessage}\n\n` + updatedReplies.map(r => `[Staff replied: "${r}"]`).join('\n\n');
+
       await api.updateGuestRequest(activeReplyRequest.id, {
         status: 'in_progress',
-        notes: `${activeReplyRequest.notes}\n\n[Staff replied: "${replyText}"]`
+        notes: updatedNotes
       });
+
       setIsSending(false);
       setActiveReplyRequest(null);
       setReplyText('');
@@ -123,6 +155,7 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
             const isEscalated = req.escalated && req.status !== 'resolved';
             const isNegative = req.sentiment_score < -0.2;
             const isPositive = req.sentiment_score > 0.2;
+            const { originalMessage, staffReplies } = parseRequestNotes(req.notes);
 
             return (
               <div 
@@ -182,16 +215,42 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
                   </div>
                 </div>
 
-                {/* Request Content / Notes */}
-                <div className="py-3">
-                  <p className="text-xs sm:text-sm text-stone-800 leading-relaxed font-semibold">
-                    "{req.notes || 'Guest request received via WhatsApp.'}"
-                  </p>
-                  {req.escalation_reason && (
-                    <p className="text-[11px] text-rose-800 mt-1 flex items-center gap-1 font-bold">
-                      <ShieldAlert className="w-3.5 h-3.5 flex-shrink-0 text-rose-600" />
-                      <span>Trigger: {req.escalation_reason}</span>
+                {/* Main Content Area */}
+                <div className="py-3.5 space-y-3">
+                  {/* Original Guest Message */}
+                  <div className="p-3.5 rounded-xl bg-stone-50/80 border border-stone-200 space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block">
+                      Original Guest Message:
+                    </span>
+                    <p className="text-xs sm:text-sm text-stone-900 leading-relaxed font-semibold">
+                      "{originalMessage}"
                     </p>
+                  </div>
+
+                  {/* Escalation Trigger Info if any */}
+                  {req.escalation_reason && (
+                    <div className="p-2.5 rounded-lg bg-rose-100/60 border border-rose-200 flex items-center gap-2 text-rose-900 text-xs font-semibold">
+                      <ShieldAlert className="w-4 h-4 flex-shrink-0 text-rose-600" />
+                      <span>Escalation Rule Trigger: {req.escalation_reason}</span>
+                    </div>
+                  )}
+
+                  {/* Staff Responses History Thread */}
+                  {staffReplies.length > 0 && (
+                    <div className="space-y-1.5 pl-2 border-l-2 border-blue-400/60 mt-2">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-700 block">
+                        Staff Reply History ({staffReplies.length})
+                      </span>
+                      {staffReplies.map((reply, idx) => (
+                        <div key={idx} className="p-2.5 rounded-xl bg-blue-50/80 border border-blue-200 text-xs text-blue-950 font-medium flex items-start gap-2">
+                          <CornerDownRight className="w-3.5 h-3.5 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <span className="text-[10px] font-bold text-blue-700 uppercase block">Staff Response #{idx + 1}</span>
+                            <p className="leading-relaxed font-semibold">"{reply}"</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
 
@@ -239,57 +298,77 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
       </div>
 
       {/* Staff Reply Modal */}
-      {activeReplyRequest && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white max-w-lg w-full p-6 space-y-4 border border-stone-200 border-t-4 border-t-blue-600 rounded-2xl shadow-2xl">
-            <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-              <h3 className="font-heading text-lg font-bold text-stone-900 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-blue-600" />
-                Staff Reply to {activeReplyRequest.room_number ? `Room ${activeReplyRequest.room_number}` : 'Guest'}
-              </h3>
-              <button 
-                onClick={() => setActiveReplyRequest(null)}
-                className="w-7 h-7 rounded-lg bg-stone-100 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+      {activeReplyRequest && (() => {
+        const { originalMessage, staffReplies } = parseRequestNotes(activeReplyRequest.notes);
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white max-w-lg w-full p-6 space-y-4 border border-stone-200 border-t-4 border-t-blue-600 rounded-2xl shadow-2xl">
+              <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+                <h3 className="font-heading text-lg font-bold text-stone-900 flex items-center gap-2">
+                  <MessageSquare className="w-5 h-5 text-blue-600" />
+                  Staff Reply to {activeReplyRequest.room_number ? `Room ${activeReplyRequest.room_number}` : 'Guest'}
+                </h3>
+                <button 
+                  onClick={() => setActiveReplyRequest(null)}
+                  className="w-7 h-7 rounded-lg bg-stone-100 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
 
-            <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-700">
-              <p className="text-[11px] text-stone-500 font-bold mb-1 uppercase tracking-wider">Guest Message:</p>
-              <p className="font-medium italic">"{activeReplyRequest.notes}"</p>
-            </div>
+              {/* Original Guest Message Display (Clean) */}
+              <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 text-xs space-y-1">
+                <span className="text-[10px] text-stone-500 font-bold uppercase tracking-wider block">
+                  Original Guest Message:
+                </span>
+                <p className="font-semibold text-stone-900 italic">"{originalMessage}"</p>
+              </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-stone-700">Type Response (will be sent to Guest WhatsApp):</label>
-              <textarea
-                value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
-                placeholder="Dear Guest, our maintenance manager has been dispatched and is at your door..."
-                rows={4}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-blue-600"
-              />
-            </div>
+              {/* Prior replies if any */}
+              {staffReplies.length > 0 && (
+                <div className="space-y-1 max-h-28 overflow-y-auto">
+                  <span className="text-[10px] text-blue-700 font-bold uppercase tracking-wider block">
+                    Previous Staff Replies:
+                  </span>
+                  {staffReplies.map((r, i) => (
+                    <div key={i} className="p-2 rounded-lg bg-blue-50 border border-blue-200 text-[11px] text-blue-950 font-medium">
+                      "{r}"
+                    </div>
+                  ))}
+                </div>
+              )}
 
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                onClick={() => setActiveReplyRequest(null)}
-                className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSendReply}
-                disabled={isSending || !replyText.trim()}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/20 active:scale-95 disabled:opacity-50"
-              >
-                <Send className="w-3.5 h-3.5" />
-                <span>{isSending ? 'Sending...' : 'Send WhatsApp Message'}</span>
-              </button>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-stone-700">Type Response (will be sent to Guest WhatsApp):</label>
+                <textarea
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  placeholder="Dear Guest, our team has been dispatched and is at your door..."
+                  rows={4}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-blue-600"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  onClick={() => setActiveReplyRequest(null)}
+                  className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSendReply}
+                  disabled={isSending || !replyText.trim()}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/20 active:scale-95 disabled:opacity-50 transition-all"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>{isSending ? 'Sending...' : 'Send WhatsApp Message'}</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }
