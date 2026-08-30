@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import ExecutiveOverview from './components/ExecutiveOverview';
 import OccupancyGrid from './components/OccupancyGrid';
 import WhatsAppSimulator from './components/WhatsAppSimulator';
 import GuestRequestsPanel from './components/GuestRequestsPanel';
@@ -14,15 +15,6 @@ import { api } from './api';
 import { Lock, Sparkles, User, LogIn, Crown, ShieldCheck } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('operations');
-  const { occupancy, roomStatus, rooms, loading, error, refresh } = useDashboardData();
-
-  const [kpis, setKpis] = useState(null);
-  const [requests, setRequests] = useState([]);
-  const [dailyReport, setDailyReport] = useState(null);
-  const [isReportOpen, setIsReportOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  
   // Initialize from persisted localStorage session
   const [currentUser, setCurrentUser] = useState(() => {
     return api.currentUser || {
@@ -32,6 +24,19 @@ export default function App() {
       role: 'owner'
     };
   });
+
+  const [activeTab, setActiveTab] = useState(() => {
+    const role = (api.currentUser || { role: 'owner' }).role;
+    return role === 'front_desk' ? 'operations' : 'overview';
+  });
+
+  const { occupancy, roomStatus, rooms, loading, error, refresh } = useDashboardData();
+
+  const [kpis, setKpis] = useState(null);
+  const [requests, setRequests] = useState([]);
+  const [dailyReport, setDailyReport] = useState(null);
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const loadAuxData = async () => {
     try {
@@ -80,6 +85,7 @@ export default function App() {
       const res = await api.login(email, 'heritage2026');
       api.setAuth(res.access_token, res.user);
       setCurrentUser(res.user);
+      setActiveTab(res.user.role === 'front_desk' ? 'operations' : 'overview');
       await handleRefreshAll();
     } catch (err) {
       console.error('Role switch error:', err);
@@ -88,6 +94,7 @@ export default function App() {
 
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
+    setActiveTab(user?.role === 'front_desk' ? 'operations' : 'overview');
     handleRefreshAll();
   };
 
@@ -142,6 +149,17 @@ export default function App() {
 
       {/* Main Module Content View */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {activeTab === 'overview' && (
+          <ExecutiveOverview
+            kpis={kpis}
+            occupancy={occupancy}
+            dailyReport={dailyReport}
+            onOpenDailyReport={() => setIsReportOpen(true)}
+            onNavigateTab={setActiveTab}
+            user={currentUser}
+          />
+        )}
+
         {activeTab === 'operations' && (
           <OccupancyGrid
             rooms={rooms}
@@ -207,3 +225,4 @@ export default function App() {
     </div>
   );
 }
+

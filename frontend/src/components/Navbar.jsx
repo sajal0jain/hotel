@@ -15,7 +15,8 @@ import {
   FileText,
   Crown,
   Briefcase,
-  BellRing
+  BellRing,
+  LayoutDashboard
 } from 'lucide-react';
 
 const ROLE_CONFIG = {
@@ -50,12 +51,22 @@ export default function Navbar({
   const occRate = occupancy?.occupancy_pct ?? kpis?.occupancy_rate;
   const occRooms = occupancy?.occupied_rooms ?? kpis?.occupied_rooms;
   const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 40;
-  const adrVal = occupancy?.adr ?? kpis?.adr;
   const revparVal = occupancy?.revpar ?? kpis?.revpar;
   const escalations = kpis?.escalated_requests_count ?? 0;
 
   const currentRoleConfig = ROLE_CONFIG[user?.role] || ROLE_CONFIG.owner;
   const RoleIcon = currentRoleConfig.icon;
+
+  const handleRoleChange = (newRole) => {
+    if (onSwitchRole) {
+      onSwitchRole(newRole);
+    }
+    if (newRole === 'front_desk') {
+      setActiveTab('operations');
+    } else {
+      setActiveTab('overview');
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-xl">
@@ -76,8 +87,9 @@ export default function Navbar({
             </div>
           </div>
 
-          {/* Real-time KPI Highlights (Hidden on small mobile) */}
-          <div className="hidden lg:flex items-center gap-6">
+          {/* Real-time KPI Highlights (3 metrics only: Occupancy, RevPAR, Escalations) */}
+          <div className="hidden lg:flex items-center gap-4">
+            {/* 1. Occupancy */}
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
               <span className="text-slate-400">Occupancy:</span>
               <span className="font-semibold text-emerald-400">
@@ -90,13 +102,7 @@ export default function Navbar({
               )}
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
-              <span className="text-slate-400">ADR:</span>
-              <span className="font-semibold text-amber-400">
-                {adrVal !== undefined ? `₹${Math.round(adrVal).toLocaleString('en-IN')}` : '—'}
-              </span>
-            </div>
-
+            {/* 2. RevPAR */}
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
               <span className="text-slate-400">RevPAR:</span>
               <span className="font-semibold text-blue-400">
@@ -104,10 +110,19 @@ export default function Navbar({
               </span>
             </div>
 
-            {escalations > 0 && (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/15 border border-red-500/40 text-xs text-red-300 animate-pulse-urgent font-medium">
+            {/* 3. Escalations */}
+            {escalations > 0 ? (
+              <button 
+                onClick={() => setActiveTab('requests')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/15 border border-red-500/40 text-xs text-red-300 animate-pulse-urgent font-medium hover:bg-red-500/25 transition-colors"
+              >
                 <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
                 <span>{escalations} Escalations</span>
+              </button>
+            ) : (
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+                <span>All Clear</span>
               </div>
             )}
           </div>
@@ -119,7 +134,8 @@ export default function Navbar({
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-semibold shadow-md shadow-amber-500/20 transition-all active:scale-95"
             >
               <Sparkles className="w-4 h-4 text-slate-950" />
-              <span>Morning AI Report</span>
+              <span className="hidden sm:inline">Morning AI Report</span>
+              <span className="sm:hidden">Report</span>
             </button>
 
             {user ? (
@@ -131,7 +147,7 @@ export default function Navbar({
                   </div>
                   <select 
                     value={user?.role || 'owner'} 
-                    onChange={(e) => onSwitchRole(e.target.value)}
+                    onChange={(e) => handleRoleChange(e.target.value)}
                     className="bg-transparent text-xs text-slate-200 outline-none cursor-pointer font-medium hover:text-amber-300 transition-colors"
                   >
                     <option value="owner" className="bg-slate-900 text-white">Owner (Vikram)</option>
@@ -162,8 +178,18 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-1 overflow-x-auto py-2 no-scrollbar border-t border-slate-800/40">
+        {/* Navigation Tabs (Smooth horizontal scrolling with flex-shrink-0) */}
+        <div className="flex items-center gap-1.5 overflow-x-auto min-w-0 max-w-full flex-nowrap py-2.5 no-scrollbar border-t border-slate-800/40">
+          {/* Overview Tab (Only for Owner and Manager) */}
+          {user?.role !== 'front_desk' && (
+            <TabButton 
+              active={activeTab === 'overview'} 
+              onClick={() => setActiveTab('overview')}
+              icon={<LayoutDashboard className="w-4 h-4" />}
+              label="Executive Overview"
+            />
+          )}
+
           <TabButton 
             active={activeTab === 'operations'} 
             onClick={() => setActiveTab('operations')}
@@ -222,7 +248,7 @@ function TabButton({ active, onClick, icon, label, badge, badgeColor = 'amber' }
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
+      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap flex-shrink-0 ${
         active 
           ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-sm shadow-amber-500/10' 
           : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50'
@@ -242,3 +268,4 @@ function TabButton({ active, onClick, icon, label, badge, badgeColor = 'amber' }
     </button>
   );
 }
+
