@@ -47,8 +47,6 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# IDE & OS
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
+# Firebase
+.firebase/
+
