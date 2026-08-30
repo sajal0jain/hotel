@@ -1,13 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
-import { api } from "../api/client";
+import { api } from "../api";
 
 /**
- * Fetches occupancy-today, room-status-summary, and rooms in parallel.
- * Returns { data, loading, error, refresh }.
+ * Fetches live room data + KPIs and shapes them into the `occupancy` /
+ * `roomStatus` / `rooms` props that OccupancyGrid and Navbar expect.
+ *
+ * Uses api.js (the real client matching backend/routers/*.py) — NOT
+ * api/client.js, which pointed at endpoints (/api/rooms, /api/dashboard/*)
+ * that don't exist in this backend. Rooms live under /api/operations/rooms,
+ * and KPIs (occupancy/ADR/RevPAR/room-status counts) come from the
+ * already-built /api/analytics/dashboard-kpis endpoint.
  *
  * Poll or call `refresh()` after actions (e.g. after a room status change)
- * to keep the dashboard in sync — this scaffold doesn't set up websockets,
- * so it's pull-based for now.
+ * to keep the dashboard in sync.
  */
 export function useDashboardData() {
   const [data, setData] = useState({
@@ -22,12 +27,27 @@ export function useDashboardData() {
     setLoading(true);
     setError(null);
     try {
-      const [occupancy, roomStatus, rooms] = await Promise.all([
-        api.getOccupancyToday(),
-        api.getRoomStatusSummary(),
-        api.listRooms(),
+      const [kpis, rooms] = await Promise.all([
+        api.getDashboardKPIs(),
+        api.getRooms(),
       ]);
-      setData({ occupancy, roomStatus, rooms });
+
+      setData({
+        occupancy: {
+          total_rooms: kpis.total_rooms,
+          occupancy_pct: kpis.occupancy_rate,
+          adr: kpis.adr,
+          revpar: kpis.revpar,
+          room_revenue_today: kpis.room_revenue,
+        },
+        roomStatus: {
+          occupied: kpis.occupied_rooms,
+          clean_ready: kpis.clean_rooms,
+          dirty_turnaround: kpis.dirty_rooms,
+          maintenance: kpis.maintenance_rooms,
+        },
+        rooms,
+      });
     } catch (err) {
       setError(err);
     } finally {

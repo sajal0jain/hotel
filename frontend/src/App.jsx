@@ -11,6 +11,7 @@ import DailyReportModal from './components/DailyReportModal';
 import LoginModal from './components/LoginModal';
 import { useDashboardData } from './hooks/useDashboardData';
 import { api } from './api';
+import { Lock, Sparkles, User, LogIn, Crown, ShieldCheck } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('operations');
@@ -21,11 +22,15 @@ export default function App() {
   const [dailyReport, setDailyReport] = useState(null);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(api.currentUser || {
-    id: 1,
-    name: 'Vikramaditya Rathore',
-    email: 'owner@grandheritage.com',
-    role: 'owner'
+  
+  // Initialize from persisted localStorage session
+  const [currentUser, setCurrentUser] = useState(() => {
+    return api.currentUser || {
+      id: 1,
+      name: 'Vikramaditya Rathore',
+      email: 'owner@grandheritage.com',
+      role: 'owner'
+    };
   });
 
   const loadAuxData = async () => {
@@ -60,19 +65,30 @@ export default function App() {
     }
   };
 
-  const handleSwitchRole = (newRole) => {
-    let name = 'Vikramaditya Rathore (Owner)';
+  const handleLogout = () => {
+    api.logout();
+    setCurrentUser(null);
+    setIsLoginOpen(true);
+  };
+
+  const handleSwitchRole = async (newRole) => {
     let email = 'owner@grandheritage.com';
-    if (newRole === 'manager') {
-      name = 'Pooja Sharma (GM)';
-      email = 'manager@grandheritage.com';
-    } else if (newRole === 'front_desk') {
-      name = 'Aman Verma (Front Desk)';
-      email = 'frontdesk@grandheritage.com';
+    if (newRole === 'manager') email = 'manager@grandheritage.com';
+    else if (newRole === 'front_desk') email = 'frontdesk@grandheritage.com';
+
+    try {
+      const res = await api.login(email, 'heritage2026');
+      api.setAuth(res.access_token, res.user);
+      setCurrentUser(res.user);
+      await handleRefreshAll();
+    } catch (err) {
+      console.error('Role switch error:', err);
     }
-    const updated = { id: 1, name, email, role: newRole };
-    setCurrentUser(updated);
-    api.setAuth('demo_token', updated);
+  };
+
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    handleRefreshAll();
   };
 
   return (
@@ -85,9 +101,29 @@ export default function App() {
         occupancy={occupancy}
         onOpenDailyReport={() => setIsReportOpen(true)}
         user={currentUser}
-        onLogout={() => setIsLoginOpen(true)}
+        onOpenLogin={() => setIsLoginOpen(true)}
+        onLogout={handleLogout}
         onSwitchRole={handleSwitchRole}
       />
+
+      {/* Unauthenticated / Guest Welcome Bar */}
+      {!currentUser && (
+        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2.5">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 text-amber-300">
+              <ShieldCheck className="w-4 h-4 text-amber-400" />
+              <span>You are currently viewing in <strong>Guest Preview Mode</strong>. Sign in for full staff & owner operations.</span>
+            </div>
+            <button
+              onClick={() => setIsLoginOpen(true)}
+              className="px-3.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md flex items-center gap-1.5 transition-all"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Sign In / Demo Login</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Backend connection / error alert banner if needed */}
       {error && !occupancy && (
@@ -158,10 +194,7 @@ export default function App() {
       <LoginModal
         isOpen={isLoginOpen}
         onClose={() => setIsLoginOpen(false)}
-        onLoginSuccess={(user) => {
-          setCurrentUser(user);
-          handleRefreshAll();
-        }}
+        onLoginSuccess={handleLoginSuccess}
       />
 
       {/* Footer */}

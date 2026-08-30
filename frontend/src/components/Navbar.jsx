@@ -10,11 +10,43 @@ import {
   BarChart3, 
   User, 
   LogOut,
+  LogIn,
   BedDouble,
-  FileText
+  FileText,
+  Crown,
+  Briefcase,
+  BellRing
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, kpis, occupancy, onOpenDailyReport, user, onLogout, onSwitchRole }) {
+const ROLE_CONFIG = {
+  owner: {
+    label: 'Owner',
+    icon: Crown,
+    badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+  },
+  manager: {
+    label: 'GM',
+    icon: Briefcase,
+    badgeClass: 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+  },
+  front_desk: {
+    label: 'Front Desk',
+    icon: BellRing,
+    badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+  }
+};
+
+export default function Navbar({ 
+  activeTab, 
+  setActiveTab, 
+  kpis, 
+  occupancy, 
+  onOpenDailyReport, 
+  user, 
+  onOpenLogin,
+  onLogout, 
+  onSwitchRole 
+}) {
   const occRate = occupancy?.occupancy_pct ?? kpis?.occupancy_rate;
   const occRooms = occupancy?.occupied_rooms ?? kpis?.occupied_rooms;
   const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 40;
@@ -22,8 +54,11 @@ export default function Navbar({ activeTab, setActiveTab, kpis, occupancy, onOpe
   const revparVal = occupancy?.revpar ?? kpis?.revpar;
   const escalations = kpis?.escalated_requests_count ?? 0;
 
+  const currentRoleConfig = ROLE_CONFIG[user?.role] || ROLE_CONFIG.owner;
+  const RoleIcon = currentRoleConfig.icon;
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-xl">
       {/* Top Brand & Live Ticker Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -77,7 +112,7 @@ export default function Navbar({ activeTab, setActiveTab, kpis, occupancy, onOpe
             )}
           </div>
 
-          {/* Actions & User Switcher */}
+          {/* Actions & User Auth Section */}
           <div className="flex items-center gap-3">
             <button
               onClick={onOpenDailyReport}
@@ -87,19 +122,43 @@ export default function Navbar({ activeTab, setActiveTab, kpis, occupancy, onOpe
               <span>Morning AI Report</span>
             </button>
 
-            {/* Role dropdown / selector */}
-            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
-              <User className="w-3.5 h-3.5 text-amber-400" />
-              <select 
-                value={user?.role || 'owner'} 
-                onChange={(e) => onSwitchRole(e.target.value)}
-                className="bg-transparent text-xs text-slate-200 outline-none cursor-pointer font-medium"
+            {user ? (
+              <div className="flex items-center gap-2">
+                {/* User Pill & Role Switcher */}
+                <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 shadow-sm">
+                  <div className={`w-5 h-5 rounded-md flex items-center justify-center border ${currentRoleConfig.badgeClass}`}>
+                    <RoleIcon className="w-3 h-3" />
+                  </div>
+                  <select 
+                    value={user?.role || 'owner'} 
+                    onChange={(e) => onSwitchRole(e.target.value)}
+                    className="bg-transparent text-xs text-slate-200 outline-none cursor-pointer font-medium hover:text-amber-300 transition-colors"
+                  >
+                    <option value="owner" className="bg-slate-900 text-white">Owner (Vikram)</option>
+                    <option value="manager" className="bg-slate-900 text-white">GM (Pooja)</option>
+                    <option value="front_desk" className="bg-slate-900 text-white">Front Desk (Aman)</option>
+                  </select>
+                </div>
+
+                {/* Sign Out Button */}
+                <button
+                  onClick={onLogout}
+                  title="Sign Out of Portal"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-red-500/10 border border-slate-800 hover:border-red-500/40 text-slate-400 hover:text-red-400 text-xs font-medium transition-all"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Logout</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onOpenLogin}
+                className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
               >
-                <option value="owner" className="bg-slate-900 text-white">Owner (Vikram)</option>
-                <option value="manager" className="bg-slate-900 text-white">GM (Pooja)</option>
-                <option value="front_desk" className="bg-slate-900 text-white">Front Desk (Aman)</option>
-              </select>
-            </div>
+                <LogIn className="w-4 h-4" />
+                <span>Sign In</span>
+              </button>
+            )}
           </div>
         </div>
 

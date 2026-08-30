@@ -48,9 +48,9 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
       if (activeReplyRequest.conversation_id) {
         await api.sendStaffReply(activeReplyRequest.conversation_id, replyText);
       }
-      await api.updateGuestRequest(activeReplyRequest.id, { 
+      await api.updateGuestRequest(activeReplyRequest.id, {
         status: 'in_progress',
-        notes: `Staff replied: "${replyText}"`
+        notes: `${activeReplyRequest.notes}\n\n[Staff replied: "${replyText}"]`
       });
       setIsSending(false);
       setActiveReplyRequest(null);
