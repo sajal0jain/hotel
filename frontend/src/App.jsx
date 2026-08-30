@@ -99,7 +99,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#080C14] text-slate-100 selection:bg-amber-500 selection:text-black">
+    <div className="min-h-screen flex flex-col bg-[#F8F6F0] text-stone-900 selection:bg-amber-600 selection:text-white">
       {/* Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -115,15 +115,15 @@ export default function App() {
 
       {/* Unauthenticated / Guest Welcome Bar */}
       {!currentUser && (
-        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2.5">
+        <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-            <div className="flex items-center gap-2 text-amber-300">
-              <ShieldCheck className="w-4 h-4 text-amber-400" />
+            <div className="flex items-center gap-2 text-amber-900 font-medium">
+              <ShieldCheck className="w-4 h-4 text-amber-600" />
               <span>You are currently viewing in <strong>Guest Preview Mode</strong>. Sign in for full staff & owner operations.</span>
             </div>
             <button
               onClick={() => setIsLoginOpen(true)}
-              className="px-3.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md flex items-center gap-1.5 transition-all"
+              className="px-3.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
             >
               <LogIn className="w-3.5 h-3.5" />
               <span>Sign In / Demo Login</span>
@@ -135,11 +135,11 @@ export default function App() {
       {/* Backend connection / error alert banner if needed */}
       {error && !occupancy && (
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-          <div className="p-4 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between shadow-sm">
             <span>Could not connect to live backend ({error.message}).</span>
             <button
               onClick={handleRefreshAll}
-              className="px-3 py-1 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-400"
+              className="px-3 py-1 rounded-lg bg-rose-600 text-white font-bold hover:bg-rose-700 shadow-sm"
             >
               Retry
             </button>
@@ -216,13 +216,14 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/60 py-4 text-center text-xs text-slate-500">
+      <footer className="border-t border-stone-200 bg-white/80 backdrop-blur-md py-4 text-center text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>The Grand Heritage Boutique Hotel &copy; 2026 • 40 Rooms Unified Intelligence</span>
-          <span className="text-[11px] text-amber-500/80">Groq Llama 3.3 70B & WhatsApp Concierge Connected</span>
+          <span className="text-[11px] text-amber-700 font-semibold">Groq Llama 3.3 70B & WhatsApp Concierge Connected</span>
         </div>
       </footer>
     </div>
   );
 }
+
 
