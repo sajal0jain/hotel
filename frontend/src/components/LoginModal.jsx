@@ -1,17 +1,18 @@
+
 import React, { useState } from 'react';
-import { 
-  Building2, 
-  Lock, 
-  Mail, 
-  Shield, 
-  User, 
-  X, 
-  Sparkles, 
-  Eye, 
-  EyeOff, 
-  LogIn, 
-  Crown, 
-  Briefcase, 
+import {
+  Building2,
+  Lock,
+  Mail,
+  Shield,
+  User,
+  X,
+  Sparkles,
+  Eye,
+  EyeOff,
+  LogIn,
+  Crown,
+  Briefcase,
   BellRing,
   ArrowRight,
   CheckCircle2
@@ -19,31 +20,31 @@ import {
 import { api } from '../api';
 
 const DEMO_ACCOUNTS = [
-  { 
-    role: 'owner', 
-    name: 'Vikramaditya Rathore', 
+  {
+    role: 'owner',
+    name: 'Vikramaditya Rathore',
     title: 'Hotel Owner & Investor',
-    email: 'owner@grandheritage.com', 
+    email: 'owner@grandheritage.com',
     password: 'heritage2026',
     icon: Crown,
     badgeColor: 'border-amber-500/40 bg-amber-500/10 text-amber-300',
     description: 'Full executive access • P&L anomaly audit • Dynamic pricing strategy • Executive AI briefs'
   },
-  { 
-    role: 'manager', 
-    name: 'Pooja Sharma', 
+  {
+    role: 'manager',
+    name: 'Pooja Sharma',
     title: 'General Manager',
-    email: 'manager@grandheritage.com', 
+    email: 'manager@grandheritage.com',
     password: 'heritage2026',
     icon: Briefcase,
     badgeColor: 'border-blue-500/40 bg-blue-500/10 text-blue-300',
     description: 'Operations control • Staff management • Housekeeping turnover • Review AI replies'
   },
-  { 
-    role: 'front_desk', 
-    name: 'Aman Verma', 
+  {
+    role: 'front_desk',
+    name: 'Aman Verma',
     title: 'Front Desk Lead',
-    email: 'frontdesk@grandheritage.com', 
+    email: 'frontdesk@grandheritage.com',
     password: 'heritage2026',
     icon: BellRing,
     badgeColor: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300',
@@ -109,7 +110,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
               <p className="text-xs text-slate-400">The Grand Heritage Boutique Hotel (40 Rooms)</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="w-8 h-8 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
             title="Close"
@@ -138,11 +139,10 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
                   type="button"
                   onClick={() => handleSelectDemo(acc)}
                   disabled={loading}
-                  className={`p-3 rounded-xl border text-left transition-all flex items-start justify-between gap-3 group relative overflow-hidden ${
-                    isCurrent 
-                      ? 'bg-amber-500/10 border-amber-500/50 shadow-md shadow-amber-500/5' 
-                      : 'bg-slate-950/60 hover:bg-slate-900 border-slate-800/80 hover:border-slate-700'
-                  }`}
+                  className={`p-3 rounded-xl border text-left transition-all flex items-start justify-between gap-3 group relative overflow-hidden ${isCurrent
+                    ? 'bg-amber-500/10 border-amber-500/50 shadow-md shadow-amber-500/5'
+                    : 'bg-slate-950/60 hover:bg-slate-900 border-slate-800/80 hover:border-slate-700'
+                    }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${acc.badgeColor}`}>

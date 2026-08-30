@@ -82,7 +82,7 @@ export default function ReviewHub() {
       stars.push(
         <Star 
           key={i} 
-          className={`w-3.5 h-3.5 ${i <= numStars ? 'text-amber-400 fill-amber-400' : 'text-slate-700'}`} 
+          className={`w-3.5 h-3.5 ${i <= numStars ? 'text-amber-500 fill-amber-500' : 'text-stone-300'}`} 
         />
       );
     }
@@ -92,12 +92,12 @@ export default function ReviewHub() {
   return (
     <div className="space-y-6">
       {/* Platform & Feasibility Notice Banner */}
-      <div className="p-4 rounded-2xl bg-blue-950/20 border border-blue-500/30 flex items-start gap-3 text-xs">
-        <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+      <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-3 text-xs shadow-xs">
+        <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
         <div className="space-y-0.5">
-          <span className="font-heading font-bold text-blue-300">Review Ingestion & Platform API Feasibility Note:</span>
-          <p className="text-slate-300 leading-relaxed">
-            Google reviews are synced via the official <strong className="text-white">Google Business Profile API</strong>. 
+          <span className="font-heading font-bold text-blue-900">Review Ingestion & Platform API Feasibility Note:</span>
+          <p className="text-stone-700 leading-relaxed font-medium">
+            Google reviews are synced via the official <strong className="text-stone-900 font-bold">Google Business Profile API</strong>. 
             For Booking.com, MakeMyTrip, and Agoda (which do not provide public review APIs), our system uses structured CSV batch import & certified channel aggregator webhooks to mitigate ToS and legal risks.
           </p>
         </div>
@@ -107,17 +107,17 @@ export default function ReviewHub() {
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Left: Overall & Platform Breakdown */}
-          <div className="md:col-span-6 glass-card p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div className="md:col-span-6 bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-4">
+            <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <div>
-                <span className="text-[11px] text-slate-400 font-medium">Aggregated Rating</span>
+                <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider">Aggregated Rating</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-heading text-3xl font-bold text-white">{stats.overall_average_rating}</span>
-                  <span className="text-xs text-slate-400">/ 5.0</span>
+                  <span className="font-heading text-3xl font-black text-stone-900">{stats.overall_average_rating}</span>
+                  <span className="text-xs text-stone-500 font-medium">/ 5.0</span>
                   <div className="ml-1">{renderStars(stats.overall_average_rating)}</div>
                 </div>
               </div>
-              <span className="text-xs px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold">
+              <span className="text-xs px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 border border-emerald-300 font-extrabold">
                 {stats.total_reviews} Reviews
               </span>
             </div>
@@ -125,62 +125,62 @@ export default function ReviewHub() {
             {/* Platform Rows */}
             <div className="grid grid-cols-2 gap-2">
               {stats.platform_breakdown && Object.entries(stats.platform_breakdown).map(([plat, val]) => (
-                <div key={plat} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+                <div key={plat} className="p-3 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-300 capitalize">{plat}</span>
-                    <span className="font-bold text-amber-400">{val.avg_rating} ★</span>
+                    <span className="font-bold text-stone-800 capitalize">{plat}</span>
+                    <span className="font-extrabold text-amber-700">{val.avg_rating} ★</span>
                   </div>
-                  <span className="text-[10px] text-slate-500">{val.count} reviews</span>
+                  <span className="text-[10px] text-stone-500 font-semibold">{val.count} reviews</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Right: Complaint Clustering */}
-          <div className="md:col-span-6 glass-card p-5 space-y-3">
-            <h3 className="font-heading text-sm font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+          <div className="md:col-span-6 bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-3">
+            <h3 className="font-heading text-sm font-bold text-stone-900 flex items-center gap-2 border-b border-stone-100 pb-3">
+              <Sparkles className="w-4 h-4 text-amber-600" />
               AI Complaint & Praise Clustering
             </h3>
 
             <div className="space-y-2.5 text-xs">
               <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Cleanliness & Room Comfort</span>
-                  <span className="font-bold text-emerald-400">94% Positive</span>
+                <div className="flex items-center justify-between font-semibold">
+                  <span className="text-stone-700">Cleanliness & Room Comfort</span>
+                  <span className="font-bold text-emerald-700">94% Positive</span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                  <div className="h-full bg-emerald-500" style={{ width: '94%' }} />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Staff Service & Hospitality</span>
-                  <span className="font-bold text-emerald-400">96% Positive</span>
-                </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                  <div className="h-full bg-emerald-500" style={{ width: '96%' }} />
+                <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
+                  <div className="h-full bg-emerald-600" style={{ width: '94%' }} />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Breakfast & Dining Experience</span>
-                  <span className="font-bold text-amber-400">88% Positive</span>
+                <div className="flex items-center justify-between font-semibold">
+                  <span className="text-stone-700">Staff Service & Hospitality</span>
+                  <span className="font-bold text-emerald-700">96% Positive</span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                  <div className="h-full bg-amber-500" style={{ width: '88%' }} />
+                <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
+                  <div className="h-full bg-emerald-600" style={{ width: '96%' }} />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Wi-Fi Connectivity (3rd floor watch)</span>
-                  <span className="font-bold text-red-400">74% Positive (Issue Area)</span>
+                <div className="flex items-center justify-between font-semibold">
+                  <span className="text-stone-700">Breakfast & Dining Experience</span>
+                  <span className="font-bold text-amber-700">88% Positive</span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                  <div className="h-full bg-red-500" style={{ width: '74%' }} />
+                <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
+                  <div className="h-full bg-amber-600" style={{ width: '88%' }} />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex items-center justify-between font-semibold">
+                  <span className="text-stone-700">Wi-Fi Connectivity (3rd floor watch)</span>
+                  <span className="font-bold text-rose-700">74% Positive (Issue Area)</span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
+                  <div className="h-full bg-rose-600" style={{ width: '74%' }} />
                 </div>
               </div>
             </div>
@@ -189,19 +189,19 @@ export default function ReviewHub() {
       )}
 
       {/* Filter Controls */}
-      <div className="glass-card p-4 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-amber-400" />
-          <span className="text-xs font-semibold text-slate-300">Platform:</span>
+          <Filter className="w-4 h-4 text-amber-600" />
+          <span className="text-xs font-bold text-stone-700">Platform:</span>
           <div className="flex items-center gap-1.5 flex-wrap">
             {['all', 'google', 'booking', 'mmt', 'tripadvisor', 'agoda'].map(p => (
               <button
                 key={p}
                 onClick={() => setPlatformFilter(p)}
-                className={`px-3 py-1 rounded-lg text-xs font-medium capitalize transition-all ${
+                className={`px-3 py-1 rounded-lg text-xs font-bold capitalize transition-all ${
                   platformFilter === p 
-                    ? 'bg-amber-500 text-slate-950 font-bold shadow' 
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
+                    ? 'bg-amber-600 text-white shadow-sm' 
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
                 {p === 'all' ? 'All Platforms' : p}
@@ -218,22 +218,22 @@ export default function ReviewHub() {
           const draftText = editingDrafts[rev.id] || rev.response_draft || '';
 
           return (
-            <div key={rev.id} className="glass-card p-5 space-y-4 border border-slate-800/80 hover:border-slate-700">
+            <div key={rev.id} className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm hover:border-stone-300 space-y-4">
               {/* Review Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/60 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 font-semibold uppercase">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-800 font-bold uppercase">
                     {rev.platform}
                   </span>
                   <div>{renderStars(rev.rating)}</div>
-                  <span className="font-heading font-bold text-xs text-white">
+                  <span className="font-heading font-bold text-xs text-stone-900">
                     {rev.guest_name || 'Verified Guest'}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-slate-400">
+                <div className="flex items-center gap-3 text-xs text-stone-500 font-medium">
                   <span>{rev.review_date}</span>
                   {rev.complaint_category && rev.complaint_category !== 'none' && (
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30 capitalize">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-300 font-bold capitalize">
                       Cluster: {rev.complaint_category}
                     </span>
                   )}
@@ -241,27 +241,27 @@ export default function ReviewHub() {
               </div>
 
               {/* Review Text */}
-              <p className="text-xs text-slate-200 leading-relaxed italic">
+              <p className="text-xs sm:text-sm text-stone-800 leading-relaxed italic font-medium">
                 "{rev.text}"
               </p>
 
               {/* AI Draft Response Section */}
-              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 space-y-3">
+              <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" />
+                  <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
                     AI-Drafted Response (Groq Llama 3.3 70B):
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleGenerateDraft(rev.id)}
                       disabled={draftingId === rev.id}
-                      className="text-[11px] text-amber-400 hover:text-amber-300 font-medium underline"
+                      className="text-[11px] text-amber-700 hover:text-amber-800 font-bold underline"
                     >
                       {draftingId === rev.id ? 'Regenerating...' : 'Regenerate Draft'}
                     </button>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${
-                      isPublished ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-extrabold uppercase ${
+                      isPublished ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
                     }`}>
                       {isPublished ? 'Published' : 'Pending Approval'}
                     </span>
@@ -273,13 +273,13 @@ export default function ReviewHub() {
                   onChange={(e) => setEditingDrafts(prev => ({ ...prev, [rev.id]: e.target.value }))}
                   placeholder="AI is generating response draft..."
                   rows={4}
-                  className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-xs outline-none focus:border-amber-500 leading-relaxed font-sans"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-amber-600 leading-relaxed font-sans"
                 />
 
                 <div className="flex items-center justify-end gap-2">
                   <button
                     onClick={() => handleApproveResponse(rev.id)}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold shadow-md active:scale-95"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs active:scale-95 transition-all"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>{isPublished ? 'Update & Re-Publish' : 'Approve & Publish Response'}</span>
