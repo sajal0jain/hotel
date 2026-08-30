@@ -5,7 +5,7 @@ from backend.config import settings
 from backend.database import engine, Base
 from backend.seed import seed_database
 from backend.routers import (
-    auth, operations, concierge, analytics, expenses, reviews, pricing
+    auth, operations, concierge, analytics, expenses, reviews, pricing, dashboard
 )
 
 @asynccontextmanager
@@ -42,6 +42,7 @@ app.include_router(analytics.router)
 app.include_router(expenses.router)
 app.include_router(reviews.router)
 app.include_router(pricing.router)
+app.include_router(dashboard.router)
 
 @app.get("/")
 def root():

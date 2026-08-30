@@ -14,7 +14,14 @@ import {
   FileText
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, kpis, onOpenDailyReport, user, onLogout, onSwitchRole }) {
+export default function Navbar({ activeTab, setActiveTab, kpis, occupancy, onOpenDailyReport, user, onLogout, onSwitchRole }) {
+  const occRate = occupancy?.occupancy_pct ?? kpis?.occupancy_rate;
+  const occRooms = occupancy?.occupied_rooms ?? kpis?.occupied_rooms;
+  const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 40;
+  const adrVal = occupancy?.adr ?? kpis?.adr;
+  const revparVal = occupancy?.revpar ?? kpis?.revpar;
+  const escalations = kpis?.escalated_requests_count ?? 0;
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl">
       {/* Top Brand & Live Ticker Bar */}
@@ -28,7 +35,7 @@ export default function Navbar({ activeTab, setActiveTab, kpis, onOpenDailyRepor
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-heading text-lg font-bold tracking-tight text-white">The Grand Heritage</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-medium">40 Rooms</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-medium">{totRooms} Rooms</span>
               </div>
               <p className="text-xs text-slate-400">Hotel Guest Experience & Management Platform</p>
             </div>
@@ -38,24 +45,34 @@ export default function Navbar({ activeTab, setActiveTab, kpis, onOpenDailyRepor
           <div className="hidden lg:flex items-center gap-6">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
               <span className="text-slate-400">Occupancy:</span>
-              <span className="font-semibold text-emerald-400">{kpis?.occupancy_rate || 72.5}%</span>
-              <span className="text-slate-500">({kpis?.occupied_rooms || 29}/40)</span>
+              <span className="font-semibold text-emerald-400">
+                {occRate !== undefined ? `${occRate}%` : '—'}
+              </span>
+              {occRooms !== undefined && (
+                <span className="text-slate-500">
+                  ({occRooms}/{totRooms})
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
               <span className="text-slate-400">ADR:</span>
-              <span className="font-semibold text-amber-400">₹{kpis?.adr ? Math.round(kpis.adr).toLocaleString() : '4,650'}</span>
+              <span className="font-semibold text-amber-400">
+                {adrVal !== undefined ? `₹${Math.round(adrVal).toLocaleString('en-IN')}` : '—'}
+              </span>
             </div>
 
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
               <span className="text-slate-400">RevPAR:</span>
-              <span className="font-semibold text-blue-400">₹{kpis?.revpar ? Math.round(kpis.revpar).toLocaleString() : '3,371'}</span>
+              <span className="font-semibold text-blue-400">
+                {revparVal !== undefined ? `₹${Math.round(revparVal).toLocaleString('en-IN')}` : '—'}
+              </span>
             </div>
 
-            {kpis?.escalated_requests_count > 0 && (
+            {escalations > 0 && (
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/15 border border-red-500/40 text-xs text-red-300 animate-pulse-urgent font-medium">
                 <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
-                <span>{kpis.escalated_requests_count} Escalations</span>
+                <span>{escalations} Escalations</span>
               </div>
             )}
           </div>

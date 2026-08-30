@@ -13,7 +13,7 @@ import {
   DollarSign
 } from 'lucide-react';
 
-export default function OccupancyGrid({ rooms, onUpdateRoomStatus }) {
+export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpdateRoomStatus }) {
   const [statusFilter, setStatusFilter] = useState('all');
   const [floorFilter, setFloorFilter] = useState('all');
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -21,13 +21,13 @@ export default function OccupancyGrid({ rooms, onUpdateRoomStatus }) {
   const [modalNotes, setModalNotes] = useState('');
   const [modalRate, setModalRate] = useState(0);
 
-  // Status counts
-  const total = rooms.length;
-  const occupiedCount = rooms.filter(r => r.status === 'occupied').length;
-  const cleanCount = rooms.filter(r => r.status === 'clean').length;
-  const dirtyCount = rooms.filter(r => r.status === 'dirty').length;
-  const maintCount = rooms.filter(r => r.status === 'maintenance').length;
-  const occPct = total > 0 ? Math.round((occupiedCount / total) * 100) : 0;
+  // Dynamic status counts
+  const total = occupancy?.total_rooms || rooms.length || 40;
+  const occupiedCount = roomStatus ? roomStatus.occupied : rooms.filter(r => r.status === 'occupied').length;
+  const cleanCount = roomStatus ? roomStatus.clean_ready : rooms.filter(r => r.status === 'clean').length;
+  const dirtyCount = roomStatus ? roomStatus.dirty_turnaround : rooms.filter(r => r.status === 'dirty').length;
+  const maintCount = roomStatus ? roomStatus.maintenance : rooms.filter(r => r.status === 'maintenance').length;
+  const occPct = occupancy?.occupancy_pct ?? (total > 0 ? Math.round((occupiedCount / total) * 100) : 0);
 
   // Filtered rooms
   const filteredRooms = rooms.filter(room => {
@@ -64,7 +64,7 @@ export default function OccupancyGrid({ rooms, onUpdateRoomStatus }) {
           <div>
             <p className="text-xs text-slate-400 font-medium">Occupancy Rate</p>
             <p className="font-heading text-2xl font-bold text-white">{occPct}%</p>
-            <p className="text-[11px] text-slate-500">{occupiedCount} of 40 booked</p>
+            <p className="text-[11px] text-slate-500">{occupiedCount} of {total} booked</p>
           </div>
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
             <UserCheck className="w-5 h-5" />

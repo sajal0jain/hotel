@@ -9,11 +9,13 @@ import ReviewHub from './components/ReviewHub';
 import RevenueOptimizerWidget from './components/RevenueOptimizerWidget';
 import DailyReportModal from './components/DailyReportModal';
 import LoginModal from './components/LoginModal';
+import { useDashboardData } from './hooks/useDashboardData';
 import { api } from './api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('operations');
-  const [rooms, setRooms] = useState([]);
+  const { occupancy, roomStatus, rooms, loading, error, refresh } = useDashboardData();
+
   const [kpis, setKpis] = useState(null);
   const [requests, setRequests] = useState([]);
   const [dailyReport, setDailyReport] = useState(null);
@@ -26,31 +28,33 @@ export default function App() {
     role: 'owner'
   });
 
+  const loadAuxData = async () => {
+    try {
+      const [kpisData, reqsData, reportData] = await Promise.all([
+        api.getDashboardKPIs().catch(() => null),
+        api.getGuestRequests().catch(() => []),
+        api.getDailyReport().catch(() => null)
+      ]);
+      if (kpisData) setKpis(kpisData);
+      if (reqsData) setRequests(reqsData);
+      if (reportData) setDailyReport(reportData);
+    } catch (err) {
+      console.error('Failed to load auxiliary data:', err);
+    }
+  };
+
   useEffect(() => {
-    loadAllData();
+    loadAuxData();
   }, []);
 
-  const loadAllData = async () => {
-    try {
-      const [roomsData, kpisData, reqsData, reportData] = await Promise.all([
-        api.getRooms(),
-        api.getDashboardKPIs(),
-        api.getGuestRequests(),
-        api.getDailyReport()
-      ]);
-      setRooms(roomsData);
-      setKpis(kpisData);
-      setRequests(reqsData);
-      setDailyReport(reportData);
-    } catch (err) {
-      console.error('Failed to load initial data:', err);
-    }
+  const handleRefreshAll = async () => {
+    await Promise.all([refresh(), loadAuxData()]);
   };
 
   const handleUpdateRoomStatus = async (roomId, data) => {
     try {
       await api.updateRoomStatus(roomId, data);
-      await loadAllData();
+      await handleRefreshAll();
     } catch (err) {
       alert('Failed to update room: ' + err.message);
     }
@@ -78,31 +82,49 @@ export default function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         kpis={kpis}
+        occupancy={occupancy}
         onOpenDailyReport={() => setIsReportOpen(true)}
         user={currentUser}
         onLogout={() => setIsLoginOpen(true)}
         onSwitchRole={handleSwitchRole}
       />
 
+      {/* Backend connection / error alert banner if needed */}
+      {error && !occupancy && (
+        <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="p-4 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center justify-between">
+            <span>Could not connect to live backend ({error.message}).</span>
+            <button
+              onClick={handleRefreshAll}
+              className="px-3 py-1 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-400"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Main Module Content View */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {activeTab === 'operations' && (
           <OccupancyGrid
             rooms={rooms}
+            occupancy={occupancy}
+            roomStatus={roomStatus}
             onUpdateRoomStatus={handleUpdateRoomStatus}
           />
         )}
 
         {activeTab === 'concierge' && (
           <WhatsAppSimulator
-            onRequestCreated={() => loadAllData()}
+            onRequestCreated={() => handleRefreshAll()}
           />
         )}
 
         {activeTab === 'requests' && (
           <GuestRequestsPanel
             requests={requests}
-            onRefreshRequests={() => loadAllData()}
+            onRefreshRequests={() => handleRefreshAll()}
           />
         )}
 
@@ -120,7 +142,7 @@ export default function App() {
 
         {activeTab === 'pricing' && (
           <RevenueOptimizerWidget
-            onRateApplied={() => loadAllData()}
+            onRateApplied={() => handleRefreshAll()}
           />
         )}
       </main>
@@ -138,7 +160,7 @@ export default function App() {
         onClose={() => setIsLoginOpen(false)}
         onLoginSuccess={(user) => {
           setCurrentUser(user);
-          loadAllData();
+          handleRefreshAll();
         }}
       />
 
