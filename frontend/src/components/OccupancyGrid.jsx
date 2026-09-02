@@ -22,7 +22,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
   const [modalRate, setModalRate] = useState(0);
 
   // Dynamic status counts
-  const total = occupancy?.total_rooms || rooms.length || 40;
+  const total = occupancy?.total_rooms || rooms.length || 70;
   const occupiedCount = roomStatus ? roomStatus.occupied : rooms.filter(r => r.status === 'occupied').length;
   const cleanCount = roomStatus ? roomStatus.clean_ready : rooms.filter(r => r.status === 'clean').length;
   const dirtyCount = roomStatus ? roomStatus.dirty_turnaround : rooms.filter(r => r.status === 'dirty').length;
@@ -36,8 +36,9 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
     return true;
   });
 
-  // Group by floor
-  const floors = [1, 2, 3, 4];
+  // Dynamic floors detection
+  const detectedFloors = [...new Set(rooms.map(r => r.floor))].filter(Boolean).sort((a, b) => a - b);
+  const floors = detectedFloors.length > 0 ? detectedFloors : [1, 2, 3, 4, 5, 6, 7];
 
   const handleOpenRoomModal = (room) => {
     setSelectedRoom(room);
@@ -60,13 +61,13 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
     <div className="space-y-6">
       {/* Header & Status Summary Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        <div className="bg-white p-4 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm flex items-center justify-between">
+        <div className="bg-white p-4 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs text-stone-500 font-bold uppercase tracking-wider">Occupancy</p>
             <p className="font-heading text-2xl font-black text-stone-900">{occPct}%</p>
             <p className="text-[11px] text-stone-600 font-medium">{occupiedCount} of {total} booked</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 shadow-sm">
             <UserCheck className="w-5 h-5" />
           </div>
         </div>
@@ -119,7 +120,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
       {/* Control Bar: Floor & Status Filters */}
       <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-amber-600" />
+          <Filter className="w-4 h-4 text-teal-600" />
           <span className="text-xs font-bold text-stone-700">Status:</span>
           <div className="flex items-center gap-1.5 flex-wrap">
             {['all', 'clean', 'occupied', 'dirty', 'maintenance'].map(st => (
@@ -128,7 +129,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
                   statusFilter === st 
-                    ? 'bg-amber-600 text-white font-bold shadow-sm' 
+                    ? 'bg-teal-600 text-white font-bold shadow-sm' 
                     : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
@@ -141,14 +142,14 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
         <div className="flex items-center gap-2">
           <Layers className="w-4 h-4 text-blue-600" />
           <span className="text-xs font-bold text-stone-700">Floor:</span>
-          <div className="flex items-center gap-1.5">
-            {['all', 1, 2, 3, 4].map(fl => (
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {['all', ...floors].map(fl => (
               <button
                 key={fl}
                 onClick={() => setFloorFilter(fl.toString())}
                 className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
                   floorFilter === fl.toString()
-                    ? 'bg-amber-600 text-white font-bold shadow-sm' 
+                    ? 'bg-teal-600 text-white font-bold shadow-sm' 
                     : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
@@ -159,26 +160,29 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
         </div>
       </div>
 
-      {/* 40-Room Visual Grid by Floor */}
+      {/* 70-Room Visual Grid by Floor */}
       <div className="space-y-6">
         {floors.map(floorNum => {
           const floorRooms = filteredRooms.filter(r => r.floor === floorNum);
           if (floorRooms.length === 0 && floorFilter !== 'all') return null;
 
+          const allFloorRooms = rooms.filter(r => r.floor === floorNum);
+          const roomTypes = [...new Set(allFloorRooms.map(r => r.room_type))].join(' & ');
+          const roomRange = allFloorRooms.length > 0 
+            ? `Rooms ${allFloorRooms[0].room_number}-${allFloorRooms[allFloorRooms.length - 1].room_number}` 
+            : `Floor ${floorNum}`;
+
           return (
             <div key={floorNum} className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                 <div className="flex items-center gap-2">
-                  <span className="font-heading text-sm font-bold text-amber-800">Floor {floorNum}</span>
+                  <span className="font-heading text-sm font-bold text-teal-800">Floor {floorNum}</span>
                   <span className="text-xs text-stone-500 font-medium">
                     ({floorRooms.length} rooms)
                   </span>
                 </div>
                 <span className="text-xs text-stone-500 font-medium hidden sm:inline">
-                  {floorNum === 1 && 'Rooms 101-110 (Standard & Deluxe)'}
-                  {floorNum === 2 && 'Rooms 201-210 (Standard & Deluxe)'}
-                  {floorNum === 3 && 'Rooms 301-310 (Deluxe & Executive)'}
-                  {floorNum === 4 && 'Rooms 401-410 (Executive & Royal Suites)'}
+                  {roomRange} ({roomTypes || 'Standard / Deluxe'})
                 </span>
               </div>
 
@@ -221,7 +225,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
 
                       <div className="mt-2 space-y-0.5">
                         <p className="text-[10px] text-stone-500 font-medium truncate">{room.room_type}</p>
-                        <p className="text-[11px] font-bold text-amber-800">₹{room.base_rate.toLocaleString()}</p>
+                        <p className="text-[11px] font-bold text-teal-800">₹{room.base_rate.toLocaleString()}</p>
                       </div>
 
                       {room.notes && (
@@ -242,12 +246,12 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
       {/* Room Detail & Status Update Modal */}
       {selectedRoom && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white max-w-md w-full p-6 space-y-5 border border-stone-200 border-t-4 border-t-amber-600 rounded-2xl shadow-2xl">
+          <div className="bg-white max-w-md w-full p-6 space-y-5 border border-stone-200 border-t-4 border-t-teal-600 rounded-2xl shadow-2xl">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <div>
                 <h3 className="font-heading text-xl font-bold text-stone-900 flex items-center gap-2">
                   Room {selectedRoom.room_number}
-                  <span className="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold">
+                  <span className="text-xs px-2 py-0.5 rounded bg-teal-100 text-teal-900 font-semibold">
                     {selectedRoom.room_type}
                   </span>
                 </h3>
@@ -277,7 +281,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
                     onClick={() => setModalStatus(opt.id)}
                     className={`p-2.5 rounded-xl border text-xs font-bold text-left transition-all ${
                       modalStatus === opt.id 
-                        ? 'bg-amber-600 text-white border-amber-600 shadow-md' 
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-md' 
                         : `${opt.bg} hover:opacity-90`
                     }`}
                   >
@@ -290,14 +294,14 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
             {/* Base Rate */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-stone-700 flex items-center gap-1">
-                <DollarSign className="w-3.5 h-3.5 text-amber-600" />
+                <DollarSign className="w-3.5 h-3.5 text-teal-600" />
                 Nightly Base Rate (₹):
               </label>
               <input
                 type="number"
                 value={modalRate}
                 onChange={(e) => setModalRate(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm font-semibold outline-none focus:border-amber-600"
+                className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm font-semibold outline-none focus:border-teal-600"
               />
             </div>
 
@@ -309,7 +313,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
                 onChange={(e) => setModalNotes(e.target.value)}
                 placeholder="e.g. AC service required, extra bathrobes added, VIP arrival"
                 rows={3}
-                className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-amber-600"
+                className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-teal-600"
               />
             </div>
 
@@ -325,7 +329,7 @@ export default function OccupancyGrid({ rooms = [], occupancy, roomStatus, onUpd
               <button
                 type="button"
                 onClick={handleSaveRoomModal}
-                className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-md shadow-amber-600/20 active:scale-95"
+                className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20 active:scale-95"
               >
                 Save Room Updates
               </button>

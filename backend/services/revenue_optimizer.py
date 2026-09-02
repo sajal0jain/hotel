@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from backend.models import Room, Reservation, RateRecommendation
 
 class RevenueOptimizer:
-    BASE_HOTEL_ADR = 4200.0  # Baseline average daily rate across 40 rooms
-    TOTAL_ROOMS = 40
+    BASE_HOTEL_ADR = 4200.0  # Baseline average daily rate across 70 rooms
+    TOTAL_ROOMS = 70
 
     @classmethod
     def generate_recommendations_for_next_14_days(cls, db: Session) -> List[RateRecommendation]:

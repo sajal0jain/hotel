@@ -46,9 +46,9 @@ export default function AskDataQA() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Hero Header */}
-      <div className="bg-white p-6 sm:p-8 space-y-4 text-center border border-stone-200 border-t-2 border-t-amber-600 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 mx-auto shadow-sm">
-          <Sparkles className="w-6 h-6 text-amber-600" />
+      <div className="bg-white p-6 sm:p-8 space-y-4 text-center border border-stone-200 border-t-2 border-t-teal-600 rounded-2xl shadow-sm relative overflow-hidden">
+        <div className="w-12 h-12 rounded-2xl bg-teal-100 border border-teal-300 flex items-center justify-center text-teal-800 mx-auto shadow-sm">
+          <Sparkles className="w-6 h-6 text-teal-600" />
         </div>
         <div className="space-y-1">
           <h2 className="font-heading text-2xl font-bold text-stone-900">Ask Your Data AI</h2>
@@ -65,12 +65,12 @@ export default function AskDataQA() {
             onChange={(e) => setQueryText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
             placeholder="Ask anything (e.g. 'Why is Tuesday low?' or 'Which OTA gives best margin?')..."
-            className="w-full pl-4 pr-28 py-3.5 rounded-2xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-semibold outline-none focus:border-amber-600 shadow-inner placeholder-stone-400"
+            className="w-full pl-4 pr-28 py-3.5 rounded-2xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-semibold outline-none focus:border-teal-600 shadow-inner placeholder-stone-400"
           />
           <button
             onClick={() => handleAsk()}
             disabled={loading || !queryText.trim()}
-            className="absolute right-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-amber-600/20 active:scale-95 disabled:opacity-50 transition-all"
+            className="absolute right-2 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-teal-600/20 active:scale-95 disabled:opacity-50 transition-all"
           >
             <Send className="w-3.5 h-3.5" />
             <span>{loading ? 'Thinking...' : 'Ask AI'}</span>
@@ -87,7 +87,7 @@ export default function AskDataQA() {
                 setQueryText(sq);
                 handleAsk(sq);
               }}
-              className="px-3 py-1 rounded-full bg-stone-100 hover:bg-amber-50 border border-stone-200 hover:border-amber-300 text-[11px] text-stone-700 hover:text-amber-900 font-semibold transition-all flex items-center gap-1"
+              className="px-3 py-1 rounded-full bg-stone-100 hover:bg-teal-50 border border-stone-200 hover:border-teal-300 text-[11px] text-stone-700 hover:text-teal-900 font-semibold transition-all flex items-center gap-1"
             >
               <span>{sq}</span>
             </button>
@@ -97,25 +97,25 @@ export default function AskDataQA() {
 
       {/* Answer Result Card */}
       {qaResult && (
-        <div className="bg-white p-6 sm:p-8 space-y-5 animate-fade-in border border-stone-200 border-t-4 border-t-amber-600 rounded-2xl shadow-lg">
+        <div className="bg-white p-6 sm:p-8 space-y-5 animate-fade-in border border-stone-200 border-t-4 border-t-teal-600 rounded-2xl shadow-lg">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-stone-100 pb-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center">
-                <Bot className="w-4 h-4 text-amber-600" />
+              <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center">
+                <Bot className="w-4 h-4 text-teal-600" />
               </div>
               <div>
                 <span className="text-[10px] text-stone-500 uppercase font-bold">Operational Analysis for:</span>
                 <p className="text-xs font-extrabold text-stone-900">"{qaResult.query}"</p>
               </div>
             </div>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 font-bold capitalize">
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-teal-100 border border-teal-300 text-teal-900 font-bold capitalize">
               {qaResult.category?.replace('_', ' ')}
             </span>
           </div>
 
           {/* AI Plain Language Narrative Answer */}
-          <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200 text-xs sm:text-sm text-stone-800 leading-relaxed font-semibold">
+          <div className="p-4 rounded-xl bg-teal-50/60 border border-teal-200 text-xs sm:text-sm text-stone-800 leading-relaxed font-semibold">
             <p className="whitespace-pre-line">{qaResult.answer}</p>
           </div>
 
@@ -137,14 +137,14 @@ export default function AskDataQA() {
                     <div key={i} className="p-3 rounded-lg bg-white border border-stone-200 shadow-xs space-y-1.5">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-stone-600 font-medium">{key}</span>
-                        <span className="font-extrabold text-amber-800">
+                        <span className="font-extrabold text-teal-800">
                           {isNumber ? (val > 1000 ? `₹${Math.round(val).toLocaleString()}` : `${val}%`) : String(val)}
                         </span>
                       </div>
                       {isNumber && (
                         <div className="w-full h-1.5 rounded-full bg-stone-100 overflow-hidden">
                           <div 
-                            className="h-full bg-amber-600"
+                            className="h-full bg-teal-600"
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -168,10 +168,10 @@ export default function AskDataQA() {
                       setQueryText(f);
                       handleAsk(f);
                     }}
-                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-amber-50 border border-stone-200 hover:border-amber-300 text-left text-xs text-stone-700 hover:text-amber-900 font-semibold transition-all flex items-center justify-between gap-2 group flex-1"
+                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-teal-50 border border-stone-200 hover:border-teal-300 text-left text-xs text-stone-700 hover:text-teal-900 font-semibold transition-all flex items-center justify-between gap-2 group flex-1"
                   >
                     <span>{f}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-amber-600 transition-transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-0.5" />
                   </button>
                 ))}
               </div>

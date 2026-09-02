@@ -107,7 +107,7 @@ export default function ReviewHub() {
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Left: Overall & Platform Breakdown */}
-          <div className="md:col-span-6 bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-4">
+          <div className="md:col-span-6 bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <div>
                 <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider">Aggregated Rating</span>
@@ -128,7 +128,7 @@ export default function ReviewHub() {
                 <div key={plat} className="p-3 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-stone-800 capitalize">{plat}</span>
-                    <span className="font-extrabold text-amber-700">{val.avg_rating} ★</span>
+                    <span className="font-extrabold text-teal-700">{val.avg_rating} ★</span>
                   </div>
                   <span className="text-[10px] text-stone-500 font-semibold">{val.count} reviews</span>
                 </div>
@@ -137,9 +137,9 @@ export default function ReviewHub() {
           </div>
 
           {/* Right: Complaint Clustering */}
-          <div className="md:col-span-6 bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-3">
+          <div className="md:col-span-6 bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm space-y-3">
             <h3 className="font-heading text-sm font-bold text-stone-900 flex items-center gap-2 border-b border-stone-100 pb-3">
-              <Sparkles className="w-4 h-4 text-amber-600" />
+              <Sparkles className="w-4 h-4 text-teal-600" />
               AI Complaint & Praise Clustering
             </h3>
 
@@ -167,10 +167,10 @@ export default function ReviewHub() {
               <div className="space-y-1">
                 <div className="flex items-center justify-between font-semibold">
                   <span className="text-stone-700">Breakfast & Dining Experience</span>
-                  <span className="font-bold text-amber-700">88% Positive</span>
+                  <span className="font-bold text-teal-700">88% Positive</span>
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
-                  <div className="h-full bg-amber-600" style={{ width: '88%' }} />
+                  <div className="h-full bg-teal-600" style={{ width: '88%' }} />
                 </div>
               </div>
 
@@ -191,7 +191,7 @@ export default function ReviewHub() {
       {/* Filter Controls */}
       <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-amber-600" />
+          <Filter className="w-4 h-4 text-teal-600" />
           <span className="text-xs font-bold text-stone-700">Platform:</span>
           <div className="flex items-center gap-1.5 flex-wrap">
             {['all', 'google', 'booking', 'mmt', 'tripadvisor', 'agoda'].map(p => (
@@ -200,7 +200,7 @@ export default function ReviewHub() {
                 onClick={() => setPlatformFilter(p)}
                 className={`px-3 py-1 rounded-lg text-xs font-bold capitalize transition-all ${
                   platformFilter === p 
-                    ? 'bg-amber-600 text-white shadow-sm' 
+                    ? 'bg-teal-600 text-white shadow-sm' 
                     : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
@@ -246,22 +246,22 @@ export default function ReviewHub() {
               </p>
 
               {/* AI Draft Response Section */}
-              <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-3">
+              <div className="p-4 rounded-xl bg-teal-50/50 border border-teal-200 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                  <span className="text-xs font-bold text-teal-900 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
                     AI-Drafted Response (Groq Llama 3.3 70B):
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleGenerateDraft(rev.id)}
                       disabled={draftingId === rev.id}
-                      className="text-[11px] text-amber-700 hover:text-amber-800 font-bold underline"
+                      className="text-[11px] text-teal-700 hover:text-teal-800 font-bold underline"
                     >
                       {draftingId === rev.id ? 'Regenerating...' : 'Regenerate Draft'}
                     </button>
                     <span className={`text-[10px] px-2 py-0.5 rounded font-extrabold uppercase ${
-                      isPublished ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
+                      isPublished ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-teal-100 text-teal-800 border border-teal-300'
                     }`}>
                       {isPublished ? 'Published' : 'Pending Approval'}
                     </span>
@@ -273,7 +273,7 @@ export default function ReviewHub() {
                   onChange={(e) => setEditingDrafts(prev => ({ ...prev, [rev.id]: e.target.value }))}
                   placeholder="AI is generating response draft..."
                   rows={4}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-amber-600 leading-relaxed font-sans"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-teal-600 leading-relaxed font-sans"
                 />
 
                 <div className="flex items-center justify-end gap-2">

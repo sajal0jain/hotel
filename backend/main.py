@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="Unified Hotel Guest Experience & Management Intelligence Platform for a 40-room boutique hotel.",
+    description="Unified Hotel Guest Experience & Management Intelligence Platform for a 70-room hotel and residences.",
     version="2.0.0",
     lifespan=lifespan
 )

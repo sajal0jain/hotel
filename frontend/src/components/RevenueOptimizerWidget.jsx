@@ -51,18 +51,18 @@ export default function RevenueOptimizerWidget({ onRateApplied }) {
   return (
     <div className="space-y-6">
       {/* Header Info Banner */}
-      <div className="bg-white p-6 space-y-3 border border-stone-200 border-t-2 border-t-amber-600 rounded-2xl shadow-sm">
+      <div className="bg-white p-6 space-y-3 border border-stone-200 border-t-2 border-t-teal-600 rounded-2xl shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shadow-sm">
-              <TrendingUp className="w-5 h-5 text-amber-600" />
+            <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center shadow-sm">
+              <TrendingUp className="w-5 h-5 text-teal-600" />
             </div>
             <div>
               <h2 className="font-heading text-lg font-bold text-stone-900">Dynamic Pricing & Revenue Optimizer</h2>
               <p className="text-xs text-stone-500 font-medium">14-Day Forward Occupancy Forecasting & Yield Recommendations</p>
             </div>
           </div>
-          <span className="text-xs px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-extrabold border border-amber-300 self-start sm:self-auto">
+          <span className="text-xs px-3 py-1 rounded-full bg-teal-100 text-teal-900 font-extrabold border border-teal-300 self-start sm:self-auto">
             Baseline ADR: ₹4,200
           </span>
         </div>
@@ -94,7 +94,7 @@ export default function RevenueOptimizerWidget({ onRateApplied }) {
                 key={rec.id} 
                 className={`p-2.5 rounded-xl border text-center space-y-1.5 transition-all shadow-xs ${
                   isSurge 
-                    ? 'bg-amber-50 border-amber-300 text-amber-900'
+                    ? 'bg-teal-50 border-teal-300 text-teal-900'
                     : isLow
                     ? 'bg-blue-50 border-blue-200 text-blue-900'
                     : 'bg-stone-50 border-stone-200 text-stone-800'
@@ -108,7 +108,7 @@ export default function RevenueOptimizerWidget({ onRateApplied }) {
                 </div>
 
                 <span className={`text-[9px] px-1 py-0.2 rounded font-bold uppercase block ${
-                  isSurge ? 'bg-amber-200 text-amber-900' : isLow ? 'bg-blue-100 text-blue-800' : 'bg-stone-200 text-stone-700'
+                  isSurge ? 'bg-teal-200 text-teal-900' : isLow ? 'bg-blue-100 text-blue-800' : 'bg-stone-200 text-stone-700'
                 }`}>
                   {rec.demand_level}
                 </span>
@@ -178,7 +178,7 @@ export default function RevenueOptimizerWidget({ onRateApplied }) {
                     <button
                       onClick={() => handleApply(rec.id)}
                       disabled={applyingId === rec.id}
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-md shadow-amber-600/20 active:scale-95 disabled:opacity-50 transition-all"
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20 active:scale-95 disabled:opacity-50 transition-all"
                     >
                       <Zap className="w-3.5 h-3.5" />
                       <span>{applyingId === rec.id ? 'Applying...' : 'Apply Recommended Rate'}</span>
@@ -190,7 +190,7 @@ export default function RevenueOptimizerWidget({ onRateApplied }) {
               {/* Economic Reasoning */}
               <div className="pt-3">
                 <p className="text-xs text-stone-700 italic flex items-start gap-1.5 font-medium">
-                  <Info className="w-3.5 h-3.5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <Info className="w-3.5 h-3.5 text-teal-600 mt-0.5 flex-shrink-0" />
                   <span>{rec.reasoning}</span>
                 </p>
               </div>

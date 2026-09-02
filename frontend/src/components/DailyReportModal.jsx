@@ -18,19 +18,19 @@ export default function DailyReportModal({ isOpen, onClose, reportData }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white max-w-2xl w-full p-6 sm:p-8 space-y-6 border border-stone-200 border-t-4 border-t-amber-600 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
+      <div className="bg-white max-w-2xl w-full p-6 sm:p-8 space-y-6 border border-stone-200 border-t-4 border-t-teal-600 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
         
         {/* Header */}
         <div className="flex items-start justify-between border-b border-stone-200 pb-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 shadow-sm">
-                <Sparkles className="w-5 h-5 text-amber-600" />
+              <div className="w-9 h-9 rounded-xl bg-teal-100 border border-teal-300 flex items-center justify-center text-teal-800 shadow-sm">
+                <Sparkles className="w-5 h-5 text-teal-600" />
               </div>
               <h2 className="font-heading text-2xl font-bold text-stone-900">Morning AI Executive Brief</h2>
             </div>
             <p className="text-xs text-stone-500 font-medium">
-              The Grand Heritage • {reportData.date || 'Today'}
+              Remedra Hotels and Residences • {reportData.date || 'Today'}
             </p>
           </div>
           <button 
@@ -49,9 +49,9 @@ export default function DailyReportModal({ isOpen, onClose, reportData }) {
             <span className="text-[10px] text-stone-600 font-medium">{reportData.occupied_rooms} of {reportData.total_rooms} rooms</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
-            <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wider">Yesterday Rev</span>
-            <p className="font-heading text-2xl font-black text-amber-700">₹{Math.round(reportData.yesterday_revenue).toLocaleString()}</p>
+          <div className="p-3.5 rounded-xl bg-teal-50 border border-teal-200 space-y-1">
+            <span className="text-[11px] font-bold text-teal-800 uppercase tracking-wider">Yesterday Rev</span>
+            <p className="font-heading text-2xl font-black text-teal-700">₹{Math.round(reportData.yesterday_revenue).toLocaleString()}</p>
             <span className="text-[10px] text-stone-600 font-medium">Rooms + F&B + Spa</span>
           </div>
 
@@ -69,9 +69,9 @@ export default function DailyReportModal({ isOpen, onClose, reportData }) {
         </div>
 
         {/* Tactical AI Suggested Action Card */}
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-amber-50/60 to-white border border-amber-300 space-y-2 shadow-sm">
-          <div className="flex items-center gap-2 text-amber-800 font-heading font-extrabold text-xs tracking-wider">
-            <Lightbulb className="w-4 h-4 text-amber-600" />
+        <div className="p-5 rounded-2xl bg-gradient-to-br from-teal-50 via-teal-50/60 to-white border border-teal-300 space-y-2 shadow-sm">
+          <div className="flex items-center gap-2 text-teal-800 font-heading font-extrabold text-xs tracking-wider">
+            <Lightbulb className="w-4 h-4 text-teal-600" />
             <span>AI STRATEGIC REVENUE ACTION OF THE DAY</span>
           </div>
           <p className="text-xs sm:text-sm text-stone-800 leading-relaxed font-semibold">
@@ -130,7 +130,7 @@ export default function DailyReportModal({ isOpen, onClose, reportData }) {
           <ul className="space-y-1.5 text-xs text-stone-700">
             {reportData.key_highlights?.map((h, i) => (
               <li key={i} className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 flex-shrink-0" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 mt-0.5 flex-shrink-0" />
                 <span className="font-medium">{h}</span>
               </li>
             ))}
@@ -148,7 +148,7 @@ export default function DailyReportModal({ isOpen, onClose, reportData }) {
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-md shadow-amber-600/20"
+            className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-600/20"
           >
             Acknowledge & Close
           </button>

@@ -25,12 +25,12 @@ The Q&A engine transforms conversational business questions into structured, mul
 ## 2. Dynamic Pricing & Occupancy Forecasting Engine (Phase 8)
 
 ### Mathematical Model & Yield Logic
-For a 40-room independent boutique hotel without full PMS machine learning clusters, the platform implements an **Occupancy Pace & Day-of-Week (DoW) Yield Formulation**:
+For a 70-room independent boutique hotel and residences without full PMS machine learning clusters, the platform implements an **Occupancy Pace & Day-of-Week (DoW) Yield Formulation**:
 
 $$\text{Forecasted Occupancy } (O_t) = \min\left(98\%, \left(\frac{B_t}{N} \times 100\right) + \left(M_{\text{DoW}} \times 40\%\right) + P(L_t)\right)$$
 
 Where:
-- $N = 40$ (Total available rooms).
+- $N = 70$ (Total available rooms).
 - $B_t$ = Number of confirmed on-the-books reservations for date $t$.
 - $M_{\text{DoW}}$ = Historical Day-of-Week multiplier (e.g., Friday = 0.92, Saturday = 0.96, Tuesday = 0.58).
 - $P(L_t) = \max(0, (14 - L_t) \times 2.2\%)$ = Expected unbooked lead-time pickup as date $t$ approaches ($L_t$ lead days).

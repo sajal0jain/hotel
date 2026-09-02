@@ -99,7 +99,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F6F0] text-stone-900 selection:bg-amber-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F4F8F7] text-stone-900 selection:bg-teal-600 selection:text-white">
       {/* Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -115,15 +115,15 @@ export default function App() {
 
       {/* Unauthenticated / Guest Welcome Bar */}
       {!currentUser && (
-        <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5">
+        <div className="bg-teal-50 border-b border-teal-200 px-4 py-2.5">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-            <div className="flex items-center gap-2 text-amber-900 font-medium">
-              <ShieldCheck className="w-4 h-4 text-amber-600" />
+            <div className="flex items-center gap-2 text-teal-900 font-medium">
+              <ShieldCheck className="w-4 h-4 text-teal-600" />
               <span>You are currently viewing in <strong>Guest Preview Mode</strong>. Sign in for full staff & owner operations.</span>
             </div>
             <button
               onClick={() => setIsLoginOpen(true)}
-              className="px-3.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
+              className="px-3.5 py-1 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
             >
               <LogIn className="w-3.5 h-3.5" />
               <span>Sign In / Demo Login</span>
@@ -218,8 +218,8 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-stone-200 bg-white/80 backdrop-blur-md py-4 text-center text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>The Grand Heritage Boutique Hotel &copy; 2026 • 40 Rooms Unified Intelligence</span>
-          <span className="text-[11px] text-amber-700 font-semibold">Groq Llama 3.3 70B & WhatsApp Concierge Connected</span>
+          <span>Remedra Hotels and Residences &copy; 2026 • 40 Rooms Unified Intelligence</span>
+          <span className="text-[11px] text-teal-700 font-semibold">Groq Llama 3.3 70B & WhatsApp Concierge Connected</span>
         </div>
       </footer>
     </div>

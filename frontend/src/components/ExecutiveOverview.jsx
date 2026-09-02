@@ -35,8 +35,8 @@ export default function ExecutiveOverview({
 
   // Derived metrics from props
   const occRate = occupancy?.occupancy_pct ?? kpis?.occupancy_rate ?? 67.5;
-  const occRooms = occupancy?.occupied_rooms ?? kpis?.occupied_rooms ?? 27;
-  const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 40;
+  const occRooms = occupancy?.occupied_rooms ?? kpis?.occupied_rooms ?? 48;
+  const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 70;
   const revparVal = occupancy?.revpar ?? kpis?.revpar ?? 6121;
   const escalations = kpis?.escalated_requests_count ?? 0;
 
@@ -88,16 +88,16 @@ export default function ExecutiveOverview({
             <h1 className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
               Executive Briefing
             </h1>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 font-bold shadow-sm">
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-teal-100 border border-teal-300 text-teal-900 font-bold shadow-sm">
               {user?.role === 'manager' ? 'GM Portal' : 'Owner Portal'}
             </span>
           </div>
           <p className="text-xs sm:text-sm text-stone-600 mt-1 font-medium">
-            Real-time performance indicators, daily AI intelligence, and high-level operations for The Grand Heritage.
+            Real-time performance indicators, daily AI intelligence, and high-level operations for Remedra Hotels and Residences.
           </p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs text-stone-700 shadow-sm self-start sm:self-auto font-medium">
-          <Calendar className="w-3.5 h-3.5 text-amber-600" />
+          <Calendar className="w-3.5 h-3.5 text-teal-600" />
           <span>{dailyReport?.date || 'Sunday, August 30, 2026'}</span>
         </div>
       </div>
@@ -212,7 +212,7 @@ export default function ExecutiveOverview({
             <p className="text-xs text-stone-600 font-medium">
               {escalations > 0 
                 ? `${escalations} guest request(s) flagged for duty manager review →` 
-                : 'Zero active alerts across 40 rooms'}
+                : 'Zero active alerts across 70 rooms'}
             </p>
             {escalations > 0 && (
               <p className="text-[11px] text-rose-700 font-bold flex items-center gap-1">
@@ -226,14 +226,14 @@ export default function ExecutiveOverview({
       </div>
 
       {/* SECTION B: AI Summary Strip (Inline, One Line with Report Trigger) */}
-      <div className="p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-amber-50/50 to-white border border-amber-300 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-5 rounded-2xl bg-gradient-to-r from-teal-50 via-teal-50/50 to-white border border-teal-300 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
-          <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0 shadow-md shadow-amber-500/20">
+          <div className="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center flex-shrink-0 shadow-md shadow-teal-500/20">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div className="min-w-0 flex-1 space-y-0.5">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] uppercase tracking-wider font-extrabold text-amber-800">
+              <span className="text-[11px] uppercase tracking-wider font-extrabold text-teal-800">
                 Today's AI Strategic Revenue Insight
               </span>
             </div>
@@ -244,7 +244,7 @@ export default function ExecutiveOverview({
         </div>
         <button
           onClick={onOpenDailyReport}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold whitespace-nowrap shadow-md shadow-amber-600/20 transition-all active:scale-95 flex-shrink-0 self-end sm:self-auto"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold whitespace-nowrap shadow-md shadow-teal-600/20 transition-all active:scale-95 flex-shrink-0 self-end sm:self-auto"
         >
           <span>View Full Report</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -255,11 +255,11 @@ export default function ExecutiveOverview({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Left Column: Housekeeping Department Status */}
-        <div className="bg-white p-6 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm flex flex-col justify-between space-y-5">
+        <div className="bg-white p-6 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm flex flex-col justify-between space-y-5">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
+                <div className="w-8 h-8 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700">
                   <Layers className="w-4 h-4" />
                 </div>
                 <h3 className="font-heading text-base font-bold text-stone-900">Housekeeping Queue</h3>
@@ -297,16 +297,16 @@ export default function ExecutiveOverview({
             <span className="text-xs text-stone-500 font-medium">Need individual room statuses or housekeeping logs?</span>
             <button
               onClick={() => onNavigateTab && onNavigateTab('operations')}
-              className="flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-800 transition-colors"
+              className="flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-800 transition-colors"
             >
-              <span>View 40-Room Grid</span>
+              <span>View 70-Room Grid</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* Right Column: Guest Sentiment Snapshot */}
-        <div className="bg-white p-6 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm flex flex-col justify-between space-y-5">
+        <div className="bg-white p-6 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm flex flex-col justify-between space-y-5">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2.5">
@@ -347,7 +347,7 @@ export default function ExecutiveOverview({
             <span className="text-xs text-stone-500 font-medium">Verified reviews across 5 booking platforms</span>
             <button
               onClick={() => onNavigateTab && onNavigateTab('reviews')}
-              className="flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-800 transition-colors"
+              className="flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-800 transition-colors"
             >
               <span>Review Manager</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -358,14 +358,14 @@ export default function ExecutiveOverview({
       </div>
 
       {/* SECTION D: Financial Snapshot (Collapsed by Default) */}
-      <div className="bg-white rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 overflow-hidden transition-all shadow-sm">
+      <div className="bg-white rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 overflow-hidden transition-all shadow-sm">
         {/* Header Row / Toggle Bar */}
         <div 
           onClick={() => setIsFinExpanded(!isFinExpanded)}
           className="p-5 sm:p-6 flex items-center justify-between cursor-pointer hover:bg-stone-50/80 transition-colors select-none"
         >
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-800 shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-teal-100 border border-teal-200 flex items-center justify-center text-teal-800 shadow-sm">
               <DollarSign className="w-5 h-5" />
             </div>
             <div>
@@ -389,7 +389,7 @@ export default function ExecutiveOverview({
               {isFinExpanded ? 'Collapse Details' : 'Expand Details'}
             </span>
             <div className="w-8 h-8 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
-              {isFinExpanded ? <ChevronUp className="w-4 h-4 text-amber-700" /> : <ChevronDown className="w-4 h-4" />}
+              {isFinExpanded ? <ChevronUp className="w-4 h-4 text-teal-700" /> : <ChevronDown className="w-4 h-4" />}
             </div>
           </div>
         </div>
@@ -450,7 +450,7 @@ export default function ExecutiveOverview({
             <div className="flex items-center justify-end pt-2">
               <button
                 onClick={() => onNavigateTab && onNavigateTab('expenses')}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all shadow-sm"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition-all shadow-sm"
               >
                 <span>Open Full Expense & P&L Statement</span>
                 <ArrowRight className="w-3.5 h-3.5" />

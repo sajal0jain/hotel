@@ -20,7 +20,7 @@ def test_root_endpoint(client):
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "online"
-    assert data["total_rooms"] == 40
+    assert data["total_rooms"] == 70
 
 def test_auth_login_success(client):
     response = client.post("/api/auth/login", json={
@@ -43,7 +43,7 @@ def test_get_rooms_and_count(client):
     response = client.get("/api/operations/rooms")
     assert response.status_code == 200
     rooms = response.json()
-    assert len(rooms) == 40
+    assert len(rooms) == 70
     # Test room status update
     room_101 = rooms[0]
     update_res = client.put(f"/api/operations/rooms/{room_101['id']}/status", json={
@@ -80,7 +80,7 @@ def test_dashboard_kpis(client):
     response = client.get("/api/analytics/dashboard-kpis")
     assert response.status_code == 200
     data = response.json()
-    assert data["total_rooms"] == 40
+    assert data["total_rooms"] == 70
     assert "occupancy_rate" in data
     assert "today_revenue" in data
     assert "adr" in data

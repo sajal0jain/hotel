@@ -23,7 +23,7 @@ const ROLE_CONFIG = {
   owner: {
     label: 'Owner',
     icon: Crown,
-    badgeClass: 'bg-amber-100 text-amber-800 border-amber-300'
+    badgeClass: 'bg-teal-100 text-teal-800 border-teal-300'
   },
   manager: {
     label: 'GM',
@@ -50,7 +50,7 @@ export default function Navbar({
 }) {
   const occRate = occupancy?.occupancy_pct ?? kpis?.occupancy_rate;
   const occRooms = occupancy?.occupied_rooms ?? kpis?.occupied_rooms;
-  const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 40;
+  const totRooms = occupancy?.total_rooms ?? kpis?.total_rooms ?? 70;
   const revparVal = occupancy?.revpar ?? kpis?.revpar;
   const escalations = kpis?.escalated_requests_count ?? 0;
 
@@ -75,13 +75,13 @@ export default function Navbar({
         <div className="flex items-center justify-between h-16">
           {/* Logo & Hotel Brand */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 text-white font-bold">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center shadow-md shadow-teal-500/20 text-white font-bold">
               <Building2 className="w-6 h-6 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-heading text-lg font-bold tracking-tight text-stone-900">The Grand Heritage</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-semibold">{totRooms} Rooms</span>
+                <span className="font-heading text-lg font-bold tracking-tight text-stone-900">Remedra Hotels and Residences</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-teal-50 border border-teal-300 text-teal-800 font-semibold">{totRooms} Rooms</span>
               </div>
               <p className="text-xs text-stone-500">Hotel Guest Experience & Management Platform</p>
             </div>
@@ -131,9 +131,9 @@ export default function Navbar({
           <div className="flex items-center gap-3">
             <button
               onClick={onOpenDailyReport}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs font-bold shadow-md shadow-amber-500/20 transition-all active:scale-95"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white text-xs font-bold shadow-md shadow-teal-500/20 transition-all active:scale-95"
             >
-              <Sparkles className="w-4 h-4 text-amber-100" />
+              <Sparkles className="w-4 h-4 text-teal-100" />
               <span className="hidden sm:inline">Morning AI Report</span>
               <span className="sm:hidden">Report</span>
             </button>
@@ -148,7 +148,7 @@ export default function Navbar({
                   <select 
                     value={user?.role || 'owner'} 
                     onChange={(e) => handleRoleChange(e.target.value)}
-                    className="bg-transparent text-xs text-stone-800 outline-none cursor-pointer font-semibold hover:text-amber-700 transition-colors"
+                    className="bg-transparent text-xs text-stone-800 outline-none cursor-pointer font-semibold hover:text-teal-700 transition-colors"
                   >
                     <option value="owner">Owner (Vikram)</option>
                     <option value="manager">GM (Pooja)</option>
@@ -169,7 +169,7 @@ export default function Navbar({
             ) : (
               <button
                 onClick={onOpenLogin}
-                className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 active:scale-95 transition-all"
+                className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-teal-500 hover:bg-teal-600 text-white text-xs font-bold shadow-md shadow-teal-500/20 active:scale-95 transition-all"
               >
                 <LogIn className="w-4 h-4" />
                 <span>Sign In</span>
@@ -194,7 +194,7 @@ export default function Navbar({
             active={activeTab === 'operations'} 
             onClick={() => setActiveTab('operations')}
             icon={<BedDouble className="w-4 h-4" />}
-            label="40-Room Matrix"
+            label="70-Room Matrix"
           />
           <TabButton 
             active={activeTab === 'concierge'} 
@@ -223,7 +223,7 @@ export default function Navbar({
             icon={<DollarSign className="w-4 h-4" />}
             label="Expense & P&L"
             badge="MoM Anomaly"
-            badgeColor="amber"
+            badgeColor="teal"
           />
           <TabButton 
             active={activeTab === 'reviews'} 
@@ -244,13 +244,13 @@ export default function Navbar({
   );
 }
 
-function TabButton({ active, onClick, icon, label, badge, badgeColor = 'amber' }) {
+function TabButton({ active, onClick, icon, label, badge, badgeColor = 'teal' }) {
   return (
     <button
       onClick={onClick}
       className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap flex-shrink-0 ${
         active 
-          ? 'bg-amber-600 text-white shadow-md shadow-amber-600/20' 
+          ? 'bg-teal-600 text-white shadow-md shadow-teal-600/20' 
           : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100/90'
       }`}
     >
@@ -262,7 +262,7 @@ function TabButton({ active, onClick, icon, label, badge, badgeColor = 'amber' }
             ? 'bg-white/20 text-white' 
             : badgeColor === 'red' 
               ? 'bg-rose-100 text-rose-700 border border-rose-300' 
-              : 'bg-amber-100 text-amber-800 border border-amber-300'
+              : 'bg-teal-100 text-teal-800 border border-teal-300'
         }`}>
           {badge}
         </span>

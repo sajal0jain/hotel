@@ -11,8 +11,8 @@ except ImportError:
 
 class Settings(BaseSettings):
     APP_NAME: str = "Hotel Guest Experience & Management Platform"
-    HOTEL_NAME: str = "The Grand Heritage Boutique Hotel"
-    TOTAL_ROOMS: int = 40
+    HOTEL_NAME: str = "Remedra Hotels and Residences"
+    TOTAL_ROOMS: int = 70
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./hotel.db")
     SECRET_KEY: str = os.getenv("SECRET_KEY", "hotel-concierge-super-secret-jwt-key-2026")
     ALGORITHM: str = "HS256"

@@ -62,7 +62,7 @@ export default function WhatsAppSimulator({ onRequestCreated }) {
     {
       id: 1,
       sender: 'bot',
-      content: 'Welcome to *The Grand Heritage Boutique Hotel* Concierge! 🏨✨ How may I assist you with your stay today?',
+      content: 'Welcome to *Remedra Hotels and Residences* Concierge! 🏨✨ How may I assist you with your stay today?',
       time: '12:00 PM'
     }
   ]);
@@ -133,9 +133,9 @@ export default function WhatsAppSimulator({ onRequestCreated }) {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       {/* Left: Persona Switcher & Quick Scenario Bar */}
       <div className="lg:col-span-4 space-y-4">
-        <div className="bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-4">
+        <div className="bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-stone-100 pb-3">
-            <Sparkles className="w-4 h-4 text-amber-600" />
+            <Sparkles className="w-4 h-4 text-teal-600" />
             <h3 className="font-heading text-sm font-bold text-stone-900">Interactive Guest Personas</h3>
           </div>
           <p className="text-xs text-stone-500 font-medium leading-relaxed">
@@ -149,14 +149,14 @@ export default function WhatsAppSimulator({ onRequestCreated }) {
                 onClick={() => handleSelectPreset(p)}
                 className={`w-full p-3 rounded-xl border text-left transition-all flex flex-col gap-1 ${
                   selectedPersona.phone === p.phone
-                    ? 'bg-amber-50 border-amber-300 text-amber-900 shadow-sm'
+                    ? 'bg-teal-50 border-teal-300 text-teal-900 shadow-sm'
                     : 'bg-stone-50/60 border-stone-200 text-stone-700 hover:bg-stone-100 hover:border-stone-300'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-heading font-bold text-xs text-stone-900">{p.name}</span>
                   {p.vip && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-200 text-amber-900 font-extrabold">
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-teal-200 text-teal-900 font-extrabold">
                       VIP
                     </span>
                   )}
@@ -183,7 +183,7 @@ export default function WhatsAppSimulator({ onRequestCreated }) {
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 rounded-lg bg-stone-50 border border-stone-200">
                 <span className="text-[10px] text-stone-500 block font-medium">Classified Intent:</span>
-                <span className="font-bold text-amber-800 capitalize">{lastAnalysis.intent}</span>
+                <span className="font-bold text-teal-800 capitalize">{lastAnalysis.intent}</span>
               </div>
               <div className="p-2 rounded-lg bg-stone-50 border border-stone-200">
                 <span className="text-[10px] text-stone-500 block font-medium">Category:</span>
@@ -242,14 +242,14 @@ export default function WhatsAppSimulator({ onRequestCreated }) {
           <div className="bg-[#075E54] text-white px-4 py-3 flex items-center justify-between shadow-md">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-slate-950 font-bold text-sm shadow">
-                  GH
+                <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-slate-950 font-bold text-sm shadow">
+                  RH
                 </div>
                 <div className="w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#075E54] absolute bottom-0 right-0" />
               </div>
               <div>
                 <h4 className="text-sm font-bold leading-tight flex items-center gap-1">
-                  The Grand Heritage
+                  Remedra Hotels and Residences
                   <span className="text-[10px] px-1 rounded bg-emerald-700 text-emerald-100 font-normal">Verified</span>
                 </h4>
                 <p className="text-[11px] text-emerald-100 flex items-center gap-1">
@@ -276,7 +276,7 @@ export default function WhatsAppSimulator({ onRequestCreated }) {
             {/* Encryption notice */}
             <div className="flex justify-center">
               <div className="px-3 py-1 rounded-lg bg-white/90 border border-stone-200 text-[10px] text-stone-600 text-center max-w-xs shadow-xs font-medium">
-                🔒 Messages with The Grand Heritage Concierge are secured.
+                🔒 Messages with Remedra Hotels and Residences Concierge are secured.
               </div>
             </div>
 

@@ -99,7 +99,7 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
       {/* Header & Filter Controls */}
       <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-amber-600" />
+          <Filter className="w-4 h-4 text-teal-600" />
           <span className="text-xs font-bold text-stone-700">Status:</span>
           <div className="flex items-center gap-1.5 flex-wrap">
             {[
@@ -114,7 +114,7 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
                 onClick={() => setStatusFilter(st.id)}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                   statusFilter === st.id
-                    ? 'bg-amber-600 text-white shadow-sm'
+                    ? 'bg-teal-600 text-white shadow-sm'
                     : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
@@ -169,7 +169,7 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
                   <div className="flex items-center gap-3">
                     {/* Room Badge */}
-                    <div className="px-2.5 py-1 rounded-lg bg-amber-100 border border-amber-300 text-amber-900 font-heading font-extrabold text-xs shadow-xs">
+                    <div className="px-2.5 py-1 rounded-lg bg-teal-100 border border-teal-300 text-teal-900 font-heading font-extrabold text-xs shadow-xs">
                       {req.room_number ? `Room ${req.room_number}` : 'Guest Inquiry'}
                     </div>
 
@@ -208,7 +208,7 @@ export default function GuestRequestsPanel({ requests, onRefreshRequests }) {
                         ? 'bg-blue-100 text-blue-800 border border-blue-300'
                         : isEscalated
                         ? 'bg-rose-200 text-rose-900 border border-rose-400 font-black'
-                        : 'bg-amber-100 text-amber-800 border border-amber-300'
+                        : 'bg-teal-100 text-teal-800 border border-teal-300'
                     }`}>
                       {req.status}
                     </span>

@@ -102,7 +102,7 @@ export default function ExpensePnLView() {
       {/* Month Selector Bar */}
       <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-amber-600" />
+          <Calendar className="w-4 h-4 text-teal-600" />
           <span className="font-heading text-sm font-bold text-stone-900">Monthly Statement:</span>
           <div className="flex items-center gap-1.5 flex-wrap">
             {['2026-08', '2026-07', '2026-06', '2026-05', '2026-04', '2026-03'].map(m => (
@@ -111,7 +111,7 @@ export default function ExpensePnLView() {
                 onClick={() => setSelectedMonth(m)}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                   selectedMonth === m 
-                    ? 'bg-amber-600 text-white shadow' 
+                    ? 'bg-teal-600 text-white shadow' 
                     : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
@@ -133,9 +133,9 @@ export default function ExpensePnLView() {
             <span className="text-[10px] text-stone-600 font-medium">Rooms + F&B + Other</span>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-1">
+          <div className="bg-white p-4 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm space-y-1">
             <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider">Operating Expenses</span>
-            <p className="font-heading text-2xl font-black text-amber-700">
+            <p className="font-heading text-2xl font-black text-teal-700">
               ₹{Math.round(pnlData.total_expenses).toLocaleString()}
             </p>
             <span className="text-[10px] text-stone-600 font-medium">7 Cost Categories</span>
@@ -193,10 +193,10 @@ export default function ExpensePnLView() {
         
         {/* Left: Categorized Expenses Breakdown */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-amber-600 shadow-sm space-y-4">
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 border-t-2 border-t-teal-600 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <h3 className="font-heading text-sm font-bold text-stone-900 flex items-center gap-2">
-                <PieChart className="w-4 h-4 text-amber-600" />
+                <PieChart className="w-4 h-4 text-teal-600" />
                 Categorized Cost Distribution
               </h3>
               <span className="text-xs text-stone-500 font-semibold">
@@ -230,7 +230,7 @@ export default function ExpensePnLView() {
 
                       <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
                         <div 
-                          className={`h-full ${isAnom ? 'bg-rose-600' : 'bg-amber-600'}`}
+                          className={`h-full ${isAnom ? 'bg-rose-600' : 'bg-teal-600'}`}
                           style={{ width: `${pct}%` }}
                         />
                       </div>
@@ -270,7 +270,7 @@ export default function ExpensePnLView() {
                       setUploadText(p.text);
                       handleUploadInvoice(p.text);
                     }}
-                    className="p-2 rounded-lg bg-stone-50 hover:bg-amber-50 border border-stone-200 hover:border-amber-300 text-left text-xs text-stone-700 hover:text-amber-900 font-medium transition-all truncate"
+                    className="p-2 rounded-lg bg-stone-50 hover:bg-teal-50 border border-stone-200 hover:border-teal-300 text-left text-xs text-stone-700 hover:text-teal-900 font-medium transition-all truncate"
                   >
                     {p.title}
                   </button>
@@ -285,7 +285,7 @@ export default function ExpensePnLView() {
                 onChange={(e) => setUploadText(e.target.value)}
                 placeholder="Or paste invoice text here (e.g. 'Vendor: Rajasthan Discom, Amount: ₹142,500, Month: 2026-08')..."
                 rows={3}
-                className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-amber-600"
+                className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-xs font-medium outline-none focus:border-teal-600"
               />
               <button
                 onClick={() => handleUploadInvoice()}

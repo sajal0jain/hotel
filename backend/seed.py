@@ -21,12 +21,12 @@ def seed_database():
     db: Session = SessionLocal()
 
     # Check if database already seeded
-    if db.query(Room).count() >= 40:
-        print("Database already contains 40 rooms. Seeding skipped.")
+    if db.query(Room).count() >= 70:
+        print("Database already contains 70 rooms. Seeding skipped.")
         db.close()
         return
 
-    print("🌱 Starting comprehensive database seed for 40-room hotel...")
+    print("[SEED] Starting comprehensive database seed for 70-room hotel...")
 
     # 1. Staff Users
     staff_data = [
@@ -46,7 +46,7 @@ def seed_database():
             ))
     db.commit()
 
-    # 2. 40 Hotel Rooms across 4 Floors
+    # 2. 70 Hotel Rooms across 7 Floors
     rooms_config = [
         # Floor 1
         {"num": "101", "type": "Standard", "floor": 1, "rate": 3500.0, "status": "occupied"},
@@ -92,6 +92,39 @@ def seed_database():
         {"num": "408", "type": "Suite", "floor": 4, "rate": 9500.0, "status": "occupied"},
         {"num": "409", "type": "Suite", "floor": 4, "rate": 9500.0, "status": "occupied"},
         {"num": "410", "type": "Suite", "floor": 4, "rate": 9500.0, "status": "clean"},
+        # Floor 5
+        {"num": "501", "type": "Standard", "floor": 5, "rate": 3500.0, "status": "occupied"},
+        {"num": "502", "type": "Standard", "floor": 5, "rate": 3500.0, "status": "occupied"},
+        {"num": "503", "type": "Standard", "floor": 5, "rate": 3500.0, "status": "clean"},
+        {"num": "504", "type": "Standard", "floor": 5, "rate": 3500.0, "status": "occupied"},
+        {"num": "505", "type": "Standard", "floor": 5, "rate": 3500.0, "status": "clean"},
+        {"num": "506", "type": "Standard", "floor": 5, "rate": 3500.0, "status": "occupied"},
+        {"num": "507", "type": "Deluxe", "floor": 5, "rate": 4600.0, "status": "occupied"},
+        {"num": "508", "type": "Deluxe", "floor": 5, "rate": 4600.0, "status": "clean"},
+        {"num": "509", "type": "Deluxe", "floor": 5, "rate": 4600.0, "status": "occupied"},
+        {"num": "510", "type": "Deluxe", "floor": 5, "rate": 4600.0, "status": "occupied"},
+        # Floor 6
+        {"num": "601", "type": "Deluxe", "floor": 6, "rate": 4600.0, "status": "occupied"},
+        {"num": "602", "type": "Deluxe", "floor": 6, "rate": 4600.0, "status": "occupied"},
+        {"num": "603", "type": "Deluxe", "floor": 6, "rate": 4600.0, "status": "clean"},
+        {"num": "604", "type": "Deluxe", "floor": 6, "rate": 4600.0, "status": "occupied"},
+        {"num": "605", "type": "Executive", "floor": 6, "rate": 6200.0, "status": "occupied"},
+        {"num": "606", "type": "Executive", "floor": 6, "rate": 6200.0, "status": "clean"},
+        {"num": "607", "type": "Executive", "floor": 6, "rate": 6200.0, "status": "occupied"},
+        {"num": "608", "type": "Executive", "floor": 6, "rate": 6200.0, "status": "occupied"},
+        {"num": "609", "type": "Executive", "floor": 6, "rate": 6200.0, "status": "occupied"},
+        {"num": "610", "type": "Executive", "floor": 6, "rate": 6200.0, "status": "clean"},
+        # Floor 7
+        {"num": "701", "type": "Executive", "floor": 7, "rate": 6200.0, "status": "occupied"},
+        {"num": "702", "type": "Executive", "floor": 7, "rate": 6200.0, "status": "occupied"},
+        {"num": "703", "type": "Executive", "floor": 7, "rate": 6200.0, "status": "clean"},
+        {"num": "704", "type": "Executive", "floor": 7, "rate": 6200.0, "status": "occupied"},
+        {"num": "705", "type": "Suite", "floor": 7, "rate": 9500.0, "status": "occupied"},
+        {"num": "706", "type": "Suite", "floor": 7, "rate": 9500.0, "status": "occupied"},
+        {"num": "707", "type": "Suite", "floor": 7, "rate": 9500.0, "status": "clean"},
+        {"num": "708", "type": "Suite", "floor": 7, "rate": 9500.0, "status": "occupied"},
+        {"num": "709", "type": "Suite", "floor": 7, "rate": 9500.0, "status": "occupied"},
+        {"num": "710", "type": "Suite", "floor": 7, "rate": 9500.0, "status": "clean"},
     ]
 
     room_objects = {}
@@ -236,12 +269,12 @@ def seed_database():
             occ_pct = round(random.uniform(66.0, 78.0), 1)
             adr_val = round(random.uniform(4300.0, 4800.0), 0)
 
-        sold_rooms = int(round(40 * (occ_pct / 100.0)))
+        sold_rooms = int(round(70 * (occ_pct / 100.0)))
         room_rev = sold_rooms * adr_val
         fnb_rev = round(sold_rooms * random.uniform(650.0, 1100.0), 0)
         other_rev = round(sold_rooms * random.uniform(150.0, 350.0), 0)
         tot_rev = room_rev + fnb_rev + other_rev
-        revpar_val = round(tot_rev / 40, 1)
+        revpar_val = round(tot_rev / 70, 1)
 
         db.add(RevenueDaily(
             date=rec_date_str,
@@ -353,7 +386,7 @@ def seed_database():
     # 8. Revenue Optimizer 14-day recommendations
     RevenueOptimizer.generate_recommendations_for_next_14_days(db)
 
-    print(" Database seeded successfully with 40 rooms, guests, requests, reviews, expenses, and forecasts.")
+    print("[SEED] Database seeded successfully with 70 rooms, guests, requests, reviews, expenses, and forecasts.")
     db.close()
 
 if __name__ == "__main__":

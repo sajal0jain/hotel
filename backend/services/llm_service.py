@@ -124,7 +124,7 @@ class LLMService:
             intent = "complaint"
 
         # Try Groq LLM if available
-        system_prompt = f"""You are the friendly, polished, 5-star WhatsApp AI Concierge for '{KNOWLEDGE_BASE.get('hotel_info', {}).get('name', 'The Grand Heritage Boutique Hotel')}'.
+        system_prompt = f"""You are the friendly, polished, 5-star WhatsApp AI Concierge for '{KNOWLEDGE_BASE.get('hotel_info', {}).get('name', 'Remedra Hotels and Residences')}'.
 Guest name: {guest_name}
 Guest room: {room_number or 'Inquiry'}
 Hotel Knowledge Base: {json.dumps(KNOWLEDGE_BASE)}
@@ -171,7 +171,7 @@ Rules:
     def _generate_fallback_concierge_reply(message: str, guest_name: str, room_number: str, category: str, is_escalated: bool) -> str:
         text = message.lower()
         hotel_info = KNOWLEDGE_BASE.get("hotel_info", {})
-        hotel_name = hotel_info.get("name", "The Grand Heritage Boutique Hotel")
+        hotel_name = hotel_info.get("name", "Remedra Hotels and Residences")
         
         if is_escalated:
             room_str = f" to Room {room_number}" if room_number else ""
@@ -284,7 +284,7 @@ Rules:
         """
         Translates owner/manager queries into high-value operational insights and data answers.
         """
-        system_prompt = f"""You are the Chief Hospitality AI Data Analyst for a 40-room boutique hotel.
+        system_prompt = f"""You are the Chief Hospitality AI Data Analyst for 'Remedra Hotels and Residences' (70-room hotel and residences).
 Analyze the user's natural-language business query using the provided context metrics:
 Context Database Summary:
 {json.dumps(context_data, default=str)}
@@ -417,7 +417,7 @@ Return a JSON object with:
         # Default summary
         return {
             "category": "operations",
-            "answer": f"Operational Overview: The hotel is running at healthy operational metrics. Total 40 rooms (29 occupied, 8 clean ready, 2 dirty turnaround, 1 maintenance). Guest sentiment index is +0.74 (positive).",
+            "answer": f"Operational Overview: The hotel is running at healthy operational metrics across 70 rooms (51 occupied, 14 clean ready, 3 dirty turnaround, 2 maintenance). Guest sentiment index is +0.74 (positive).",
             "chart_type": "kpi",
             "data": {
                 "Occupancy Rate": "72.5%",
@@ -441,7 +441,7 @@ Return a JSON object with:
         complaint_category: str = None,
         tone: str = "empathetic and professional"
     ) -> str:
-        hotel_name = KNOWLEDGE_BASE.get("hotel_info", {}).get("name", "The Grand Heritage Boutique Hotel")
+        hotel_name = KNOWLEDGE_BASE.get("hotel_info", {}).get("name", "Remedra Hotels and Residences")
         
         system_prompt = f"""You are the General Manager of '{hotel_name}'.
 Draft a personalized, high-empathy, professional response to this online guest review.

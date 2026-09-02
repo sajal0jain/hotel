@@ -5,13 +5,13 @@ sys.stdout.reconfigure(encoding='utf-8')
 client = httpx.Client(base_url='http://127.0.0.1:8000')
 
 print("======================================================================")
-print("THE GRAND HERITAGE (40-ROOM BOUTIQUE HOTEL) — LIVE SYSTEM DEMO")
+print("REMEDRA HOTELS AND RESIDENCES (70-ROOM BOUTIQUE HOTEL & RESIDENCES) — LIVE SYSTEM DEMO")
 print("======================================================================\n")
 
 # 1. Dashboard KPIs
 kpis = client.get('/api/analytics/dashboard-kpis').json()
-print("1. [DASHBOARD & 40-ROOM MATRIX OVERVIEW]")
-print(f"   • Occupancy: {kpis['occupancy_rate']}% ({kpis['occupied_rooms']}/40 rooms booked)")
+print("1. [DASHBOARD & 70-ROOM MATRIX OVERVIEW]")
+print(f"   • Occupancy: {kpis['occupancy_rate']}% ({kpis['occupied_rooms']}/{kpis.get('total_rooms', 70)} rooms booked)")
 print(f"   • Room Status Breakdown: {kpis['clean_rooms']} Clean Ready | {kpis['occupied_rooms']} Occupied | {kpis['dirty_rooms']} Dirty Turnaround | {kpis['maintenance_rooms']} Maintenance")
 print(f"   • ADR (Average Daily Rate): Rs. {kpis['adr']:,.0f}")
 print(f"   • RevPAR: Rs. {kpis['revpar']:,.0f}")

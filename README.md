@@ -1,6 +1,6 @@
-# 🏨 The Grand Heritage — Hotel Guest Experience & Management Platform (v2)
+# 🏨 Remedra Hotels and Residences — Hotel Guest Experience & Management Platform (v2)
 
-> A unified, full-stack intelligence and operations system for a 40-room independent boutique hotel. Integrates a guest-facing WhatsApp AI Concierge with a comprehensive Owner & Staff Operations Suite.
+> A unified, full-stack intelligence and operations system for a 70-room independent boutique hotel and residences. Integrates a guest-facing WhatsApp AI Concierge with a comprehensive Owner & Staff Operations Suite.
 
 ---
 
@@ -13,8 +13,8 @@
    - Sentiment analysis (-1.0 to 1.0) and real-time keyword/sentiment **Urgent Escalation Engine**.
    - Two-way staff reply-through from dashboard to WhatsApp.
 
-2. **40-Room Interactive Matrix (Phase 4)**
-   - Real-time room status grid across 4 floors (Clean, Occupied, Dirty Turnaround, Maintenance).
+2. **70-Room Interactive Matrix (Phase 4)**
+   - Real-time room status grid across 7 floors (Clean, Occupied, Dirty Turnaround, Maintenance).
    - Filter by floor, status, or room category (Standard, Deluxe, Executive, Suite).
    - 1-click status modifier and housekeeping note logs.
 
@@ -81,7 +81,7 @@ python -m pip install -r backend/requirements.txt
 # Start FastAPI server on port 8000
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-*The database (`hotel.db`) will be automatically created and seeded with 40 rooms, sample reservations, reviews, 6-month expenses, and dynamic rate forecasts.*
+*The database (`hotel.db`) will be automatically created and seeded with 70 rooms, sample reservations, reviews, 6-month expenses, and dynamic rate forecasts.*
 
 ### 3. Frontend Setup
 ```bash

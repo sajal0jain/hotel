@@ -1,7 +1,7 @@
 {
   "hotel_info": {
-    "name": "The Grand Heritage Boutique Hotel",
-    "rooms_count": 40,
+    "name": "Remedra Hotels and Residences",
+    "rooms_count": 70,
     "address": "42 Heritage Boulevard, Civil Lines, Jaipur / City Centre",
     "phone": "+91 141 289 9000",
     "whatsapp": "+91 98290 12345",
@@ -78,25 +78,25 @@
   "room_categories": [
     {
       "name": "Standard Heritage Room",
-      "rooms_count": 12,
+      "rooms_count": 18,
       "base_price": 3500,
       "features": "280 sqft, Queen Bed, Rain Shower, Smart TV, Courtyard View"
     },
     {
       "name": "Deluxe Garden View",
-      "rooms_count": 16,
+      "rooms_count": 24,
       "base_price": 4600,
       "features": "360 sqft, King Bed, Private Balcony, Garden View, Bathrobe & Slippers"
     },
     {
       "name": "Executive Club Room",
-      "rooms_count": 8,
+      "rooms_count": 18,
       "base_price": 6200,
       "features": "420 sqft, King Bed, Espresso Machine, City Skyline View, Club Lounge Access"
     },
     {
       "name": "Royal Heritage Suite",
-      "rooms_count": 4,
+      "rooms_count": 10,
       "base_price": 9500,
       "features": "650 sqft, Separate Living Salon, Soaking Jacuzzi Bath, Butler Service"
     }
